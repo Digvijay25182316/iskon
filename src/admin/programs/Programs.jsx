@@ -6,28 +6,32 @@ import { MdDelete } from "react-icons/md";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 function Programs() {
   return (
     <div className="w-screen mt-32 md:mt-0 md:p-5 p-3">
-      <div className="flex items-center justify-between w-full pl-16">
+      <div className="md:flex items-center justify-between w-full pl-16 hidden">
         <p className="text-2xl font-bold text-gray-700 pl-10 md:pl-0">
           Programs
         </p>
-        <div className="hidden md:block">
+        <div>
           <SearchBox />
         </div>
-        <p>notification</p>
       </div>
-      <div className="pl-16 md:mt-3">
+      <p className="block md:hidden text-2xl font-bold text-gray-700 ml-10 pb-5">
+        Program
+      </p>
+      <div className="md:pl-16 md:mt-3">
         <div className="w-full bg-white rounded-t-xl drop-shadow px-5 py-1.5 flex items-center justify-between">
-          <button
-            className="flex items-center gap-3 px-4 py-1 bg-blue-200 rounded-lg"
-            onClick={() => window.alert("clicked")}
-          >
-            <FiPlus />
-            Program
-          </button>
+          <div>
+            <Link to={"/admin/addprogram"}>
+              <button className="flex items-center gap-3 px-4 py-1 bg-blue-200 rounded-lg">
+                <FiPlus />
+                Program
+              </button>
+            </Link>
+          </div>
           <div className="flex items-center text-gray-600 gap-5">
             <p>1500</p>
             <div className="flex items-center text-gray-400 gap-5 text-xl">

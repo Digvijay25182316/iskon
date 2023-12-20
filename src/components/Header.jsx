@@ -35,8 +35,8 @@ const Header = () => {
               className={`text-2xl ${
                 pathname === "/admin/dashboard"
                   ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
-                  : " text-stone-400 p-1 "
-              }}`}
+                  : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
+              }`}
             >
               <MdOutlineDashboard />
             </div>
@@ -46,8 +46,8 @@ const Header = () => {
               className={`text-2xl ${
                 pathname === "/admin/users"
                   ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
-                  : " text-stone-400 p-1 "
-              }}`}
+                  : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
+              }`}
             >
               <HiOutlineUsers />
             </div>
@@ -57,8 +57,8 @@ const Header = () => {
               className={`text-2xl ${
                 pathname === "/admin/events"
                   ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
-                  : " text-stone-400 p-1 "
-              }}`}
+                  : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
+              }`}
             >
               <MdOutlineEventAvailable />
             </div>
@@ -68,8 +68,8 @@ const Header = () => {
               className={`text-2xl ${
                 pathname === "/admin/programs"
                   ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
-                  : " text-stone-400 p-1 "
-              }}`}
+                  : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
+              }`}
             >
               <PiGraduationCap />
             </div>
@@ -79,8 +79,8 @@ const Header = () => {
               className={`text-2xl ${
                 pathname === "/admin/donations"
                   ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
-                  : " text-stone-400 p-1 "
-              }}`}
+                  : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
+              }`}
             >
               <BsCurrencyRupee />
             </div>

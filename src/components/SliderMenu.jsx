@@ -77,7 +77,7 @@ const Slider = () => {
                   pathname === "/admin/events"
                     ? "border-purple-400 text-purple-400"
                     : "border-stone-400 text-stone-400"
-                } p-3 rounded-xl flex items-center w-[250px]`}
+                } p-2 rounded-xl flex items-center w-[250px]`}
               >
                 <MdOutlineEventAvailable className="text-3xl" />
                 <p>Events</p>
@@ -89,21 +89,21 @@ const Slider = () => {
                   pathname === "/admin/programs"
                     ? "border-purple-400 text-purple-400"
                     : "border-stone-400 text-stone-400"
-                } p-3 rounded-xl flex items-center w-[250px]`}
+                } p-2 rounded-xl flex items-center w-[250px]`}
               >
-                <PiGraduationCap className="text-3xl text-stone-400" />
+                <PiGraduationCap className="text-3xl" />
                 <p>Programs</p>
               </button>
             </Link>
-            <Link to={"/admin/programs"} onClick={toggleSlider}>
+            <Link to={"/admin/donations"} onClick={toggleSlider}>
               <button
                 className={`text-xl flex items-center gap-6 font-bold border-2 ${
-                  pathname === "/admin/programs"
+                  pathname === "/admin/donations"
                     ? "border-purple-400 text-purple-400"
                     : "border-stone-400 text-stone-400"
-                } p-3 rounded-xl flex items-center w-[250px]`}
+                } p-2 rounded-xl flex items-center w-[250px]`}
               >
-                <BsCurrencyRupee className="text-3xl text-stone-400" />
+                <BsCurrencyRupee className="text-3xl" />
                 <p>Donations</p>
               </button>
             </Link>

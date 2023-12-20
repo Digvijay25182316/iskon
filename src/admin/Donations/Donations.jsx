@@ -3,15 +3,26 @@ import donationsList from "../../data/Donations";
 import { FaUser } from "react-icons/fa6";
 import { LuIndianRupee } from "react-icons/lu";
 import { FiPhoneCall } from "react-icons/fi";
+import SearchBox from "../../components/SearchBox";
 
 function Donations() {
   return (
-    <div className="md:mt-0 mt-32">
-      <p className="text-3xl font-bold text-gray-700 py-5 pl-10">Donations</p>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 mx-5">
+    <div className="w-screen pt-32 md:pt-0 md:p-5 p-3 h-screen">
+      <div className="md:flex items-center justify-between w-full pl-16 hidden py-5">
+        <p className="text-2xl font-bold text-gray-700 pl-10 md:pl-0">
+          Donations
+        </p>
+        <div className="hidden md:block">
+          <SearchBox />
+        </div>
+      </div>
+      <p className="block md:hidden text-2xl font-bold text-gray-700 ml-10 pb-5">
+        Donations
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 mx-5 overflow-scroll scroll-hidden h-[70vh] md:pl-10 md:h-[85vh]">
         {donationsList?.map((donation, index) => (
           <div
-            className="bg-white p-3 min-h-[150px] rounded-xl shadow flex flex-col"
+            className="bg-white p-3 h-[150px] rounded-xl shadow flex flex-col"
             key={index}
           >
             <div className="flex items-center gap-2">

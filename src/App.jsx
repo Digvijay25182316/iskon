@@ -8,6 +8,7 @@ import Programs from "./admin/programs/Programs";
 import Events from "./admin/events/Events";
 import Donations from "./admin/Donations/Donations";
 import NotFound from "./components/NotFound";
+import AddProgram from "./admin/programs/AddProgram";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/admin/programs" element={<Programs />} />
             <Route path="/admin/events" element={<Events />} />
             <Route path="/admin/donations" element={<Donations />} />
+            <Route path="/admin/addprogram" element={<AddProgram />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

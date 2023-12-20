@@ -69,6 +69,42 @@ const events = [
     eventDetails:
       "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   },
+  {
+    NameOfParticipant: "Grace Walker",
+    createdDate: new Date("2023-12-05"),
+    eventDetails:
+      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  },
+  {
+    NameOfParticipant: "Grace Walker",
+    createdDate: new Date("2023-12-05"),
+    eventDetails:
+      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  },
+  {
+    NameOfParticipant: "Grace Walker",
+    createdDate: new Date("2023-12-05"),
+    eventDetails:
+      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  },
+  {
+    NameOfParticipant: "Grace Walker",
+    createdDate: new Date("2023-12-05"),
+    eventDetails:
+      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  },
+  {
+    NameOfParticipant: "Grace Walker",
+    createdDate: new Date("2023-12-05"),
+    eventDetails:
+      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  },
+  {
+    NameOfParticipant: "Grace Walker",
+    createdDate: new Date("2023-12-05"),
+    eventDetails:
+      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  },
 ];
 
 export default events;
