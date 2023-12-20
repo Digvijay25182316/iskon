@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.scroll-hidden::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for Firefox */
+  .scroll-hidden {
+    scrollbar-width: none;
+  }
+  
+  /* Ensure the container is scrollable */
+  .scroll-hidden {
+    overflow-x: auto;
+    /* Add more styles as needed */
+  }
