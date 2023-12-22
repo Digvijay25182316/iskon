@@ -20,15 +20,15 @@ function Programs() {
         </div>
       </div>
       <p className="block md:hidden text-2xl font-bold text-gray-700 ml-10 pb-5">
-        Program
+        Programs
       </p>
       <div className="md:pl-16 md:mt-3">
         <div className="w-full bg-white rounded-t-xl drop-shadow px-5 py-1.5 flex items-center justify-between">
           <div>
-            <Link to={"/admin/addprogram"}>
+            <Link to={"/admin/addprograms"}>
               <button className="flex items-center gap-3 px-4 py-1 bg-blue-200 rounded-lg">
                 <FiPlus />
-                Program
+                Programs
               </button>
             </Link>
           </div>
@@ -55,51 +55,66 @@ function Programs() {
                   name
                 </th>
                 <th className="w-max whitespace-nowrap text-xl text-gray-700">
-                  description
+                  Description
+                </th>
+                <th className="w-max whitespace-nowrap text-xl text-gray-700">
+                  Preacher
+                </th>
+
+                <th className="w-max whitespace-nowrap text-xl text-gray-700">
+                  Coordinator
+                </th>
+                <th className="w-max whitespace-nowrap text-xl text-gray-700">
+                  Mentor
                 </th>
                 <th className="w-max whitespace-nowrap text-xl text-gray-700">
                   Location
                 </th>
                 <th className="w-max whitespace-nowrap text-xl text-gray-700">
-                  Sessions
+                  CreatedBy
                 </th>
                 <th className="w-max whitespace-nowrap text-xl text-gray-700">
-                  start
+                  Created On
                 </th>
                 <th className="w-max whitespace-nowrap text-xl text-gray-700">
-                  expected end
+                  Last Update
                 </th>
               </tr>
             </thead>
             <tbody>
-              {ProgramsList?.map((program, index) => (
+              {ProgramsList?.map((Programs, index) => (
                 <tr key={index} className="border-b border-t">
                   <td className="w-max whitespace-nowrap px-5 py-2 text-md">
                     {index + 1}
                   </td>
                   <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {program.name}
+                    {Programs.name}
                   </td>
                   <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {program.description}
+                    {Programs.description}
                   </td>
                   <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {program.program_location}
+                    {Programs.preacher}
                   </td>
                   <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {program.number_of_sessions}
+                    {Programs.coordinator}
                   </td>
                   <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {program.start_date}
+                    {Programs.mentor}
                   </td>
                   <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {program.expected_end_date}
+                    {Programs.location}
                   </td>
                   <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    <button className="text-purple-600 border-2 border-purple-400 px-2 py-1 text-lg rounded-lg transition-colors duration-300 hover:bg-purple-400 hover:text-white">
-                      + sessions
-                    </button>
+                    {Programs.createdBy}
                   </td>
+                  <td className="w-max whitespace-nowrap px-5 py-2 text-md">
+                    {Programs.created}
+                  </td>
+                  <td className="w-max whitespace-nowrap px-5 py-2 text-md">
+                    {Programs.modified}
+                  </td>
+
                   <td className="w-max whitespace-nowrap px-5 py-2 text-md">
                     <button className="text-purple-600 transition-colors duration-300 hover:text-red-600 hover:bg-gray-100 px-3 py-1.5 rounded-xl">
                       <MdEdit className="text-xl" />

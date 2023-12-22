@@ -25,7 +25,7 @@ function App() {
             <Route path="/admin/programs" element={<Programs />} />
             <Route path="/admin/events" element={<Events />} />
             <Route path="/admin/donations" element={<Donations />} />
-            <Route path="/admin/addprogram" element={<AddProgram />} />
+            <Route path="/admin/addprograms" element={<AddProgram />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
