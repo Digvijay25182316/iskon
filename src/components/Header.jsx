@@ -8,6 +8,7 @@ import { Link, useLocation } from "react-router-dom";
 import SliderMenu from "../components/SliderMenu";
 import SearchBox from "./SearchBox";
 import { BsCurrencyRupee } from "react-icons/bs";
+import { TbActivity } from "react-icons/tb";
 
 const Header = () => {
   const { pathname } = useLocation();
@@ -60,13 +61,24 @@ const Header = () => {
                   : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
               }`}
             >
-              <MdOutlineEventAvailable />
+              <TbActivity />
             </div>
           </Link>
           <Link to={"/admin/programs"}>
             <div
               className={`text-2xl ${
                 pathname === "/admin/programs"
+                  ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
+                  : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
+              }`}
+            >
+              <MdOutlineEventAvailable />
+            </div>
+          </Link>
+          <Link to={"/admin/courses"}>
+            <div
+              className={`text-2xl ${
+                pathname === "/admin/courses"
                   ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
                   : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
               }`}

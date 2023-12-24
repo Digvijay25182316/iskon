@@ -3,12 +3,13 @@ import "./App.css";
 import HomeScreen from "./Homescreen/HomeScreen";
 import Header from "./components/Header";
 import Dashboard from "./admin/dashboard/Dashboard";
-import Users from "./admin/users/Users";
+import Users from "./admin/Volunteers/Users";
 import Programs from "./admin/programs/Programs";
 import Events from "./admin/events/Events";
 import Donations from "./admin/Donations/Donations";
 import NotFound from "./components/NotFound";
 import AddProgram from "./admin/programs/AddProgram";
+import Courses from "./admin/Courses/Courses";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/admin/events" element={<Events />} />
             <Route path="/admin/donations" element={<Donations />} />
             <Route path="/admin/addprograms" element={<AddProgram />} />
+            <Route path="/admin/courses" element={<Courses />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

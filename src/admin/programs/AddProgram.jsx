@@ -19,7 +19,7 @@ function Addprogram() {
         Add program
       </p>
       <div className="md:pl-16 ">
-        <form action="" className="bg-white p-5 rounded-xl shadow">
+        <form className="bg-white p-5 rounded-xl shadow">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             <div className="flex flex-col gap-3">
               <label

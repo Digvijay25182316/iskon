@@ -1,7 +1,5 @@
 import React, { useRef } from "react";
 
-import "react-datepicker/dist/react-datepicker.module.css";
-
 import { RxCross2 } from "react-icons/rx";
 import SubmitButtonForms from "../../components/SubmitFormButton";
 
@@ -51,7 +49,7 @@ const AddCourses = ({
         </button>
         <div className="overflow-scroll scroll-hidden h-full flex flex-col">
           <p className="fixed text-gray-800 font-bold text-xl  bg-white w-full p-4">
-            Add Course
+            Update Course
           </p>
           <div className="h-full flex  justify-center">
             <form
@@ -60,13 +58,13 @@ const AddCourses = ({
               onSubmit={onSubmit}
             >
               <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                This form will be basically for adding course
+                This Form Will be basically to update
               </div>
               <SubmitButtonForms
                 buttonStyles={
                   "px-5 py-2 text-lg bg-blue-200 w-full rounded-lg "
                 }
-                content={"Create"}
+                content={"Update"}
                 containerStyles={"pb-10"}
               />
             </form>
