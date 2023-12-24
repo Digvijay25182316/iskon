@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import SubmitButtonForms from "../../components/SubmitFormButton";
-import "react-datepicker/dist/react-datepicker.css";
+import LoadingSkeleton from "./ProgramSkeleton";
+import { FiPlus } from "react-icons/fi";
+import AddVolunteer from "./AddVolunteer";
 
 function Addprogram() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isSliderOpen, setSliderOpen] = useState(false);
   return (
     <div className="w-screen pt-32 md:pt-0 md:p-5 p-3 h-full">
       <div className="md:flex items-center justify-between w-full pl-16 hidden py-5">
@@ -43,7 +48,6 @@ function Addprogram() {
                 className={`px-4 py-1.5 border rounded-md focus:outline-none bg-white text-stone-900 border-stone-300`}
               />
             </div>
-
             <div className="flex flex-col gap-3">
               <label
                 htmlFor="incharge"
@@ -51,53 +55,122 @@ function Addprogram() {
               >
                 Program Incharge{" "}
               </label>
-              <input
-                type="text"
-                placeholder="Harinam Das"
-                name="incharge"
-                className={`px-4 py-1.5 border rounded-md focus:outline-none bg-white text-stone-900 border-stone-300`}
-              />
+              <div className="flex items-center w-full gap-1">
+                {!isLoading ? (
+                  <select
+                    name={"incharge"}
+                    className={`px-4 py-1.5 border rounded-md focus:outline-none bg-white text-stone-900 border-stone-300 flex-1`}
+                  >
+                    <option value={"harisham pr"}>Harisham Pr</option>
+                  </select>
+                ) : (
+                  <LoadingSkeleton />
+                )}
+                <button
+                  onClick={() => {
+                    setModalOpen(!isModalOpen);
+                    setSliderOpen(!isSliderOpen);
+                  }}
+                  className="flex items-center text-lg bg-gray-200 w-max px-3 h-max py-1 gap-2 rounded-md"
+                  type="button"
+                >
+                  <FiPlus />
+                  New
+                </button>
+              </div>
             </div>
             <div className="flex flex-col gap-3">
               <label
-                htmlFor="incharge"
+                htmlFor="mentor"
                 className={`font-semibold ml-2 text-stone-800`}
               >
                 Program Mentor{" "}
               </label>
-              <input
-                type="text"
-                placeholder="Harinam Das"
-                name="incharge"
-                className={`px-4 py-1.5 border rounded-md focus:outline-none bg-white text-stone-900 border-stone-300`}
-              />
-            </div>
-            <div className="flex flex-col gap-3">
-              <label
-                htmlFor="preacher"
-                className={`font-semibold ml-2 text-stone-800`}
-              >
-                Preacher{" "}
-              </label>
-              <input
-                type="text"
-                placeholder="harinam das"
-                name="preacher"
-                className={`px-4 py-1.5 border rounded-md focus:outline-none bg-white text-stone-900 border-stone-300`}
-              />
+              <div className="flex items-center w-full gap-1">
+                {!isLoading ? (
+                  <select
+                    name={"mentor"}
+                    className={`px-4 py-1.5 border rounded-md focus:outline-none bg-white text-stone-900 border-stone-300 flex-1`}
+                  >
+                    <option value={"harisham pr"}>Harisham Pr</option>
+                  </select>
+                ) : (
+                  <LoadingSkeleton />
+                )}
+                <button
+                  onClick={() => {
+                    setModalOpen(!isModalOpen);
+                    setSliderOpen(!isSliderOpen);
+                  }}
+                  className="flex items-center text-lg bg-gray-200 w-max px-3 h-max py-1 gap-2 rounded-md"
+                  type="button"
+                >
+                  <FiPlus />
+                  New
+                </button>
+              </div>
             </div>
             <div className="flex flex-col gap-3">
               <label
                 htmlFor="coordinator"
                 className={`font-semibold ml-2 text-stone-800`}
               >
-                Coordinator{" "}
+                Program Coordinator{" "}
               </label>
-              <input
-                type="text"
-                className={`px-4 py-1.5 border rounded-md focus:outline-none bg-white text-stone-900 border-stone-300`}
-                placeholder="Harinam Das"
-              />
+              <div className="flex items-center w-full gap-1">
+                {!isLoading ? (
+                  <select
+                    name={"coordinator"}
+                    className={`px-4 py-1.5 border rounded-md focus:outline-none bg-white text-stone-900 border-stone-300 flex-1`}
+                  >
+                    <option value={"harisham pr"}>Harisham Pr</option>
+                  </select>
+                ) : (
+                  <LoadingSkeleton />
+                )}
+                <button
+                  onClick={() => {
+                    setModalOpen(!isModalOpen);
+                    setSliderOpen(!isSliderOpen);
+                  }}
+                  className="flex items-center text-lg bg-gray-200 w-max px-3 h-max py-1 gap-2 rounded-md"
+                  type="button"
+                >
+                  <FiPlus />
+                  New
+                </button>
+              </div>
+            </div>
+            <div className="flex flex-col gap-3">
+              <label
+                htmlFor="preacher"
+                className={`font-semibold ml-2 text-stone-800`}
+              >
+                preacher{" "}
+              </label>
+              <div className="flex items-center w-full gap-1">
+                {!isLoading ? (
+                  <select
+                    name={"preacher"}
+                    className={`px-4 py-1.5 border rounded-md focus:outline-none bg-white text-stone-900 border-stone-300 flex-1`}
+                  >
+                    <option value={"harisham pr"}>Harisham Pr</option>
+                  </select>
+                ) : (
+                  <LoadingSkeleton />
+                )}
+                <button
+                  onClick={() => {
+                    setModalOpen(!isModalOpen);
+                    setSliderOpen(!isSliderOpen);
+                  }}
+                  className="flex items-center text-lg bg-gray-200 w-max px-3 h-max py-1 gap-2 rounded-md"
+                  type="button"
+                >
+                  <FiPlus />
+                  New
+                </button>
+              </div>
             </div>
             <div className="flex flex-col gap-3">
               <label
@@ -136,6 +209,12 @@ function Addprogram() {
           />
         </form>
       </div>
+      <AddVolunteer
+        isModalOpen={isModalOpen}
+        setModalOpen={setModalOpen}
+        isSliderOpen={isSliderOpen}
+        setSliderOpen={setSliderOpen}
+      />
     </div>
   );
 }
