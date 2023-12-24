@@ -9,12 +9,12 @@ import SubmitButtonForms from "../../components/SubmitFormButton";
 const AddVolunteer = ({
   isModalOpen,
   setModalOpen,
-  isAddVolunteerOpen,
-  setAddVolunteerOpen,
+  isSliderOpen,
+  setSliderOpen,
 }) => {
   const formRef = useRef();
-  const toggleAddVolunteer = () => {
-    setAddVolunteerOpen((prev) => console.log(!prev));
+  const toggleSlider = () => {
+    setSliderOpen((prev) => console.log(!prev));
     setModalOpen(false);
   };
 
@@ -27,18 +27,18 @@ const AddVolunteer = ({
     <>
       <div
         className={
-          isAddVolunteerOpen || isModalOpen
+          isSliderOpen || isModalOpen
             ? "fixed top-0 left-0 right-0 bottom-0 z-[1000] backdrop-brightness-50 h-screen"
             : ""
         }
         onClick={() => {
-          setAddVolunteerOpen(false);
+          setSliderOpen(false);
           setModalOpen(false);
         }}
       ></div>
       <aside
         className={`fixed top-0 right-0 h-full w-full md:w-3/5 shadow bg-white text-black transition-transform z-[2000] ${
-          isAddVolunteerOpen
+          isSliderOpen
             ? "transform translate-x-0"
             : "transform translate-x-full"
         } transition-transform duration-300 ease-in-out backdrop-brightness-50`}
@@ -46,7 +46,7 @@ const AddVolunteer = ({
         <button
           className="absolute top-4 right-4 text-gray-700 focus:outline-none border-2 border-purple-400 p-2 rounded-full text-xl z-[2300]"
           type="button"
-          onClick={toggleAddVolunteer}
+          onClick={toggleSlider}
         >
           <RxCross2 />
         </button>
