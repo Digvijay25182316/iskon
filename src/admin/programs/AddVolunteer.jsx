@@ -102,7 +102,6 @@ const Slider = ({ isModalOpen, setModalOpen, isSliderOpen, setSliderOpen }) => {
                     icon={<SlCalender className="ml-0.5 mt-0.5" />}
                     showIcon
                     startDate={"10-10-1920"}
-                    startOpen={new Date()}
                     className={`px-4 py-1.5 border rounded-md focus:outline-none bg-white text-stone-900 border-stone-300 w-[75vw] md:w-full`}
                   />
                 </label>
