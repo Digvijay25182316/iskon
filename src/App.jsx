@@ -1,10 +1,4 @@
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  useLocation,
-  useRoutes,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import HomeScreen from "./Homescreen/HomeScreen";
 import Header from "./components/Header";
@@ -30,7 +24,7 @@ function App() {
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/programs" element={<Programs />} />
-            <Route path="/admin/activity" element={<Events />} />
+            <Route path="/admin/activities" element={<Events />} />
             <Route path="/admin/donations" element={<Donations />} />
             <Route path="/admin/addprograms" element={<AddProgram />} />
             <Route path="/admin/courses" element={<Courses />} />
