@@ -54,10 +54,10 @@ const Header = () => {
               <HiOutlineUsers />
             </div>
           </Link>
-          <Link to={"/admin/events"}>
+          <Link to={"/admin/activities"}>
             <div
               className={`text-2xl ${
-                pathname === "/admin/events"
+                pathname === "/admin/activities"
                   ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
                   : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
               }`}
