@@ -15,7 +15,7 @@ function AddParticipant() {
       className="min-h-screen min-w-screen bg-purple-800 flex flex-col items-center justify-center text-white"
     >
       <motion.h1 className="text-2xl font-bold text-gray-300">
-        Contact Information
+        Participants Registeration
       </motion.h1>
       <div className="bg-purple-600 md:p-10 p-5 rounded-2xl m-5">
         <form className="grid sm:grid-cols-2 md:grid-cols-3 gap-10">
