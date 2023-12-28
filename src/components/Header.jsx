@@ -9,11 +9,12 @@ import SliderMenu from "../components/SliderMenu";
 import SearchBox from "./SearchBox";
 import { BsCurrencyRupee } from "react-icons/bs";
 import { TbActivity } from "react-icons/tb";
+import { HiOutlineUserGroup } from "react-icons/hi2";
 
 const Header = () => {
   const { pathname } = useLocation();
   return (
-    <>
+    <div className={pathname.startsWith("/admin") ? "block md:w-20" : "hidden"}>
       <div className="bg-stone-100 fixed top-0 left-0 right-0 md:hidden px-2 py-2 flex flex-col gap-3 border-b rounded-b-2xl shadow z-[2000]">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-5">
@@ -86,6 +87,17 @@ const Header = () => {
               <PiGraduationCap />
             </div>
           </Link>
+          <Link to={"/admin/participants"}>
+            <div
+              className={`text-2xl ${
+                pathname === "/admin/participants"
+                  ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
+                  : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
+              }`}
+            >
+              <HiOutlineUserGroup />
+            </div>
+          </Link>
           <Link to={"/admin/donations"}>
             <div
               className={`text-2xl ${
@@ -99,7 +111,7 @@ const Header = () => {
           </Link>
         </div>
       </aside>
-    </>
+    </div>
   );
 };
 

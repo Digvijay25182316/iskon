@@ -1,4 +1,10 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useLocation,
+  useRoutes,
+} from "react-router-dom";
 import "./App.css";
 import HomeScreen from "./Homescreen/HomeScreen";
 import Header from "./components/Header";
@@ -10,14 +16,14 @@ import Donations from "./admin/Donations/Donations";
 import NotFound from "./components/NotFound";
 import AddProgram from "./admin/programs/AddProgram";
 import Courses from "./admin/Courses/Courses";
+import Participants from "./admin/participants/Participants";
+import AddParticipant from "./AddParticipant/AddParticipant";
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex ">
-        <div className="md:w-20">
-          <Header />
-        </div>
+      <div className="flex">
+        <Header />
         <div className="bg-stone-100 min-h-screen flex-1 ">
           <Routes>
             <Route path="/" element={<HomeScreen />} />
@@ -28,6 +34,9 @@ function App() {
             <Route path="/admin/donations" element={<Donations />} />
             <Route path="/admin/addprograms" element={<AddProgram />} />
             <Route path="/admin/courses" element={<Courses />} />
+            <Route path="/admin/participants" element={<Participants />} />
+            <Route path="/participants" element={<AddParticipant />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
