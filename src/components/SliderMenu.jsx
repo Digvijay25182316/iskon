@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BsCurrencyRupee } from "react-icons/bs";
-import { HiOutlineUsers } from "react-icons/hi";
+import { HiOutlineUserGroup, HiOutlineUsers } from "react-icons/hi2";
 import {
   MdOutlineDashboard,
   MdOutlineEventAvailable,
@@ -8,6 +8,7 @@ import {
 } from "react-icons/md";
 import { PiGraduationCap } from "react-icons/pi";
 import { RxCross2 } from "react-icons/rx";
+import { TbActivity } from "react-icons/tb";
 import { Link, useLocation } from "react-router-dom";
 
 const Slider = () => {
@@ -71,16 +72,16 @@ const Slider = () => {
                 <p>Users</p>
               </button>
             </Link>
-            <Link to={"/admin/events"} onClick={toggleSlider}>
+            <Link to={"/admin/activities"} onClick={toggleSlider}>
               <button
                 className={`text-xl flex items-center gap-6 font-bold border-2 ${
-                  pathname === "/admin/events"
+                  pathname === "/admin/activities"
                     ? "border-purple-400 text-purple-400"
                     : "border-stone-400 text-stone-400"
                 } p-2 rounded-xl flex items-center w-[250px]`}
               >
-                <MdOutlineEventAvailable className="text-3xl" />
-                <p>Events</p>
+                <TbActivity className="text-3xl" />
+                <p>Activities</p>
               </button>
             </Link>
             <Link to={"/admin/programs"} onClick={toggleSlider}>
@@ -91,8 +92,32 @@ const Slider = () => {
                     : "border-stone-400 text-stone-400"
                 } p-2 rounded-xl flex items-center w-[250px]`}
               >
-                <PiGraduationCap className="text-3xl" />
+                <MdOutlineEventAvailable className="text-3xl" />
                 <p>Programs</p>
+              </button>
+            </Link>
+            <Link to={"/admin/courses"} onClick={toggleSlider}>
+              <button
+                className={`text-xl flex items-center gap-6 font-bold border-2 ${
+                  pathname === "/admin/courses"
+                    ? "border-purple-400 text-purple-400"
+                    : "border-stone-400 text-stone-400"
+                } p-2 rounded-xl flex items-center w-[250px]`}
+              >
+                <PiGraduationCap className="text-3xl" />
+                <p>Courses</p>
+              </button>
+            </Link>
+            <Link to={"/admin/participants"} onClick={toggleSlider}>
+              <button
+                className={`text-xl flex items-center gap-6 font-bold border-2 ${
+                  pathname === "/admin/participants"
+                    ? "border-purple-400 text-purple-400"
+                    : "border-stone-400 text-stone-400"
+                } p-2 rounded-xl flex items-center w-[250px]`}
+              >
+                <HiOutlineUserGroup className="text-3xl" />
+                <p>Participants</p>
               </button>
             </Link>
             <Link to={"/admin/donations"} onClick={toggleSlider}>
