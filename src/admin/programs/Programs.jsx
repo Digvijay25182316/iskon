@@ -1,138 +1,78 @@
-import React from "react";
-import SearchBox from "../../components/SearchBox";
-import ProgramsList from "../../data/Programs";
-import { MdEdit } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
-import { FaAngleLeft } from "react-icons/fa";
-import { FaAngleRight } from "react-icons/fa";
-import { FiPlus } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { CalendarIcon } from "@heroicons/react/24/outline";
+import React, { useEffect, useState } from "react";
+import LoadingProgramSkeleton from "./ProgramLoadingSkeleton";
+import ProgramCard from "./ProgramCard";
+import programs from "../../data/Programs";
 
-function Programs() {
+function ProgramsList() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  // const [isErrorNames, setIsErrorProgram] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [ProgramsNames, setProgramsNames] = useState(programs ? programs : []);
+  // const [successMessage, setSuccessMessage] = useState("");
+  // useEffect(() => {
+  //   (async () => {
+  //     setIsLoading(true);
+  //     await fetch("/api/admin/program")
+  //       .then((data) => {
+  //         if (data.ok) {
+  //           return data.json();
+  //         } else {
+  //           setIsErrorProgram(true);
+  //           return data.json();
+  //         }
+  //       })
+  //       .then((data) => {
+  //         isErrorNames
+  //           ? setErrorMessage(data.message)
+  //           : setProgramsNames(data.data);
+  //       })
+  //       .catch((error) => {
+  //         setErrorMessage(error.message || "An error occurred");
+  //       })
+  //       .finally(() => {
+  //         setIsLoading(false);
+  //         isErrorNames && setIsModalOpen(true);
+  //       });
+  //   })();
+  // }, [isErrorNames]);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setIsSuccess(false);
+    setErrorMessage("");
+  };
   return (
-    <div className="w-screen mt-32 md:mt-0 md:p-5 p-3">
-      <div className="md:flex items-center justify-between w-full pl-16 hidden">
-        <p className="text-2xl font-bold text-gray-700 pl-10 md:pl-0">
-          Programs
-        </p>
-        <div>
-          <SearchBox />
-        </div>
-      </div>
-      <p className="block md:hidden text-2xl font-bold text-gray-700 ml-10 pb-5">
-        Programs
-      </p>
-      <div className="md:pl-16 md:mt-3">
-        <div className="w-full bg-white rounded-t-xl drop-shadow px-5 py-1.5 flex items-center justify-between">
-          <div>
-            <Link to={"/admin/addprograms"}>
-              <button className="flex items-center gap-3 px-4 py-1 bg-blue-200 rounded-lg">
-                <FiPlus />
-                Programs
-              </button>
-            </Link>
+    <div className="min-h-screen md:ml-36">
+      <p className="text-2xl font-bold text-gray-600 pl-10 pt-10">Programs</p>
+      <div className="md:px-10 px-5 ">
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <LoadingProgramSkeleton />
+            <LoadingProgramSkeleton />
+            <LoadingProgramSkeleton />
+            <LoadingProgramSkeleton />
           </div>
-          <div className="flex items-center text-gray-600 gap-5">
-            <p>1500</p>
-            <div className="flex items-center text-gray-400 gap-5 text-xl">
-              <p className="hover:bg-gray-100 rounded-full p-1">
-                <FaAngleLeft />
-              </p>
-              <p className="hover:bg-gray-100 rounded-full p-1">
-                <FaAngleRight />
-              </p>
-            </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+            {ProgramsNames ? (
+              ProgramsNames?.map((program, key) => (
+                <ProgramCard program={program} key={key} />
+              ))
+            ) : (
+              <div className="flex items-center justify-center md:w-[80vw] mt-40">
+                <div className="text-red-500 text-lg bg-purple-100 p-5 rounded-xl flex flex-col items-center gap-5">
+                  <CalendarIcon className="h-16 w-16" />
+                  No Program To Show
+                </div>
+              </div>
+            )}
           </div>
-        </div>
-        <div className="overflow-scroll scroll-hidden w-full bg-white rounded-b-xl pb-5 shadow max-h-[78vh] z-0">
-          <table>
-            <thead>
-              <tr>
-                <th className="w-max whitespace-nowrap text-xl text-gray-700">
-                  Sr
-                </th>
-                <th className="w-max whitespace-nowrap text-xl text-gray-700">
-                  name
-                </th>
-                <th className="w-max whitespace-nowrap text-xl text-gray-700">
-                  Description
-                </th>
-                <th className="w-max whitespace-nowrap text-xl text-gray-700">
-                  Preacher
-                </th>
-
-                <th className="w-max whitespace-nowrap text-xl text-gray-700">
-                  Coordinator
-                </th>
-                <th className="w-max whitespace-nowrap text-xl text-gray-700">
-                  Mentor
-                </th>
-                <th className="w-max whitespace-nowrap text-xl text-gray-700">
-                  Location
-                </th>
-                <th className="w-max whitespace-nowrap text-xl text-gray-700">
-                  CreatedBy
-                </th>
-                <th className="w-max whitespace-nowrap text-xl text-gray-700">
-                  Created On
-                </th>
-                <th className="w-max whitespace-nowrap text-xl text-gray-700">
-                  Last Update
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {ProgramsList?.map((Programs, index) => (
-                <tr key={index} className="border-b border-t">
-                  <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {index + 1}
-                  </td>
-                  <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {Programs.name}
-                  </td>
-                  <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {Programs.description}
-                  </td>
-                  <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {Programs.preacher}
-                  </td>
-                  <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {Programs.coordinator}
-                  </td>
-                  <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {Programs.mentor}
-                  </td>
-                  <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {Programs.location}
-                  </td>
-                  <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {Programs.createdBy}
-                  </td>
-                  <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {Programs.created}
-                  </td>
-                  <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    {Programs.modified}
-                  </td>
-
-                  <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    <button className="text-purple-600 transition-colors duration-300 hover:text-red-600 hover:bg-gray-100 px-3 py-1.5 rounded-xl">
-                      <MdEdit className="text-xl" />
-                    </button>
-                  </td>
-                  <td className="w-max whitespace-nowrap px-5 py-2 text-md">
-                    <button className="text-purple-600 transition-colors duration-300  hover:text-red-600 hover:bg-gray-100 px-3 py-1.5 rounded-xl">
-                      <MdDelete className="text-2xl" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        )}
       </div>
     </div>
   );
 }
 
-export default Programs;
+export default ProgramsList;

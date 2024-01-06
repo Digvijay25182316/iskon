@@ -16,3 +16,7 @@
     overflow-x: auto;
     /* Add more styles as needed */
   }
+
+  @import url('https://fonts.googleapis.com/css2?family=Bitter:ital@1&family=Mooli&family=Nunito&display=swap');
+
+.font-nunito{font-family: 'Nunito', sans-serif}

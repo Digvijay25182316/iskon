@@ -1,86 +1,154 @@
-import React, { useRef } from "react";
+"use client";
+import Modal from "../../components/ResponseModal";
+import { PlusIcon } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { SERVER_ENDPOINT } from "../../lib/server";
+const programs = [
+  "Gitasaar Batch 1",
+  "Gitasaar Batch 2",
+  "Gitasaar Batch 3",
+  "Gitasaar Batch 4",
+  "Gitasaar Batch 5",
+  "Gitasaar Batch 6",
+  "Gitasaar Batch 7",
+  "Gitasaar Batch 8",
+  "Gitasaar Batch 9",
+  "Gitasaar Batch 0",
+];
+const course_type = [
+  "Children Program",
+  "Boys",
+  "Girls",
+  "Family",
+  "Married Couples",
+  "Children",
+];
+const course_location = [
+  "In Temple",
+  "Temple Hall",
+  "Another Hall",
+  "HAll",
+  "Temple Hall",
+  "Children",
+];
 
-import "react-datepicker/dist/react-datepicker.module.css";
-
-import { RxCross2 } from "react-icons/rx";
-import SubmitButtonForms from "../../components/SubmitFormButton";
-
-const AddCourses = ({ isAddCoursesOpen, setAddCoursesOpen }) => {
-  const formRef = useRef();
-  const toggleAddCourses = () => {
-    setAddCoursesOpen((prev) => console.log(!prev));
-  };
+function AddCourseForm() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [programNames, setProgramNames] = useState(programs ? programs : []);
+  const [successMessage, setSuccessMessage] = useState("");
+  const formRef = useRef(null);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(formRef.current.name);
+    const formdata = {
+      code: formRef.current?.code?.value,
+      name: formRef.current?.name?.value,
+      description: formRef.current?.description?.value,
+    };
+    console.log(formdata);
+    const header = new Headers();
+    header.append("Content-Type", "application/json");
+    await fetch(`${SERVER_ENDPOINT}/course/create`, {
+      method: "POST",
+      headers: header,
+      body: JSON.stringify(formdata),
+    })
+      .then((data) => {
+        data.ok && setIsSuccess(true);
+        return data.json();
+      })
+      .then((data) => {
+        isSuccess
+          ? setSuccessMessage(data.message)
+          : setErrorMessage(data.message);
+      })
+      .catch((error) => {
+        setErrorMessage(error.message || "An error occurred");
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setIsModalOpen(true);
+      });
   };
-
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setIsSuccess(false);
+    setErrorMessage("");
+  };
   return (
-    <>
-      <aside
-        className={`fixed top-0 right-0 h-full w-full bg-white text-black transition-transform z-[2000] ${
-          isAddCoursesOpen
-            ? "transform translate-x-0"
-            : "transform translate-x-full"
-        } transition-transform duration-300 ease-in-out backdrop-brightness-50`}
-      >
-        <button
-          className="absolute top-4 right-4 text-gray-700 focus:outline-none border-2 border-purple-400 p-2 rounded-full text-xl z-[2300]"
-          type="button"
-          onClick={toggleAddCourses}
-        >
-          <RxCross2 />
-        </button>
-        <div className="overflow-scroll scroll-hidden h-full flex flex-col">
-          <p className="fixed text-gray-800 font-bold text-xl  bg-white w-full p-4">
-            Add Course
-          </p>
-          <div className="h-full flex justify-center w-full">
-            <form
-              className="flex flex-col gap-10 pt-32 md:w-3/5 w-4/5"
-              ref={formRef}
-              onSubmit={onSubmit}
-            >
-              <div className="flex flex-col gap-2">
-                <label htmlFor="name" className="font-bold text-gray-700">
-                  name
-                </label>
+    <div className="min-h-screen md:ml-36">
+      <div className="bg-white m-5 pt-16 rounded-xl pb-6">
+        <h1 className="text-2xl font-bold text-gray-700 md:ml-20 ml-10 mb-16">
+          Add New Course
+        </h1>
+        <form onSubmit={onSubmit} className="m-4" ref={formRef}>
+          <div className="grid grid-cols-1 gap-5">
+            <div className="flex flex-col w-full gap-2">
+              <label className="font-bold text-gray-700" htmlFor="code">
+                Course Code
+              </label>
+              <div className="flex items-center gap-2">
                 <input
                   type="text"
-                  name="name"
-                  className="px-4 py-1.5 text-lg border rounded-md outline-none w-full"
-                  placeholder="Enter course name"
+                  name="code"
+                  placeholder="coursecode goes here"
+                  className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white"
                 />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="description"
-                  className="font-bold text-gray-700"
+                <button
+                  className="bg-purple-100 text-purple-500 px-2 py-1 text-lg rounded-md flex items-center h-max w-max gap-2"
+                  type="button"
                 >
-                  description
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  className="px-4 py-1.5 text-lg border rounded-md outline-none"
-                  placeholder="Enter Course Description"
-                />
+                  <PlusIcon className="h-5 w-5" /> New
+                </button>
               </div>
-
-              <SubmitButtonForms
-                buttonStyles={
-                  "px-5 py-2 text-lg bg-blue-200 w-full rounded-lg "
-                }
-                content={"Create"}
-                containerStyles={"pb-10"}
+            </div>
+            <div className="flex flex-col w-full gap-2">
+              <label className="font-bold text-gray-700" htmlFor="name">
+                Course Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white"
+                placeholder="Enter The Course Name"
               />
-            </form>
-          </div>
-        </div>
-      </aside>
-    </>
-  );
-};
+            </div>
 
-export default AddCourses;
+            <div className="flex flex-col w-full gap-2">
+              <label className="font-bold text-gray-700" htmlFor="description">
+                Course Description
+              </label>
+              <textarea
+                name="description"
+                className="border px-4 py-1.5 rounded-md flex-1 h-[40px] outline-none"
+                placeholder="write some description about this course"
+              />
+            </div>
+          </div>
+          <div className="flex items-center w-full justify-center mt-6">
+            <button
+              className="text-gray-200 font-bold text-lg bg-purple-500 w-max px-5 py-1.5 rounded-lg"
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+      <Modal
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+        errorMessage={errorMessage}
+        successMessage={successMessage}
+        isModalOpen={isModalOpen}
+        onClose={closeModal}
+      />
+    </div>
+  );
+}
+
+export default AddCourseForm;

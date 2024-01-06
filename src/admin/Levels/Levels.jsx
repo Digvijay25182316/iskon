@@ -1,20 +1,28 @@
 import { AcademicCapIcon } from "@heroicons/react/24/solid";
 import React, { useEffect, useState } from "react";
-import LoadingCourseSkeleton from "./LoadingCourseSkeleton";
-import CoursesCard from "./CourseCard";
+import LoadingLevelSkeleton from "./LoadingLevelSkeleton";
+import LevelCard from "./LevelCard";
 import courseNames from "../../data/Courses";
-import { SERVER_ENDPOINT } from "../../lib/server";
+import { useParams } from "react-router-dom";
+import { useMyContext } from "../../context/Store";
 
-function CoursesList() {
+function LevelsList() {
+  const { dispatch } = useMyContext();
+  const { code } = useParams();
+
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isErrorNames, setIsErrorCourse] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [coursesNames, setCoursesNames] = useState([]);
+  const [LevelNames, setLevelNames] = useState(courseNames ? courseNames : []);
+  const [successMessage, setSuccessMessage] = useState("");
   useEffect(() => {
+    if (code) {
+      dispatch({ type: "UPDATE_CODE", payload: code });
+    }
     (async () => {
       setIsLoading(true);
-      await fetch(`${SERVER_ENDPOINT}/course/`)
+      await fetch("/api/admin/course")
         .then((data) => {
           if (data.ok) {
             return data.json();
@@ -26,7 +34,7 @@ function CoursesList() {
         .then((data) => {
           isErrorNames
             ? setErrorMessage(data.message)
-            : setCoursesNames(data.content);
+            : setLevelNames(data.data);
         })
         .catch((error) => {
           setErrorMessage(error.message || "An error occurred");
@@ -35,26 +43,26 @@ function CoursesList() {
           setIsLoading(false);
         });
     })();
-  }, [isErrorNames]);
+  }, [isErrorNames, code, dispatch]);
   return (
     <div className="md:pl-36">
       <p className="text-2xl font-bold text-gray-600 pl-10 pt-5">Courses</p>
       <div className="md:px-10 px-5">
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5">
-            <LoadingCourseSkeleton />
-            <LoadingCourseSkeleton />
-            <LoadingCourseSkeleton />
-            <LoadingCourseSkeleton />
-            <LoadingCourseSkeleton />
-            <LoadingCourseSkeleton />
-            <LoadingCourseSkeleton />
+            <LoadingLevelSkeleton />
+            <LoadingLevelSkeleton />
+            <LoadingLevelSkeleton />
+            <LoadingLevelSkeleton />
+            <LoadingLevelSkeleton />
+            <LoadingLevelSkeleton />
+            <LoadingLevelSkeleton />
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5">
-            {coursesNames ? (
-              coursesNames?.map((course, key) => (
-                <CoursesCard key={key} course={course} />
+            {LevelNames ? (
+              LevelNames?.map((course, key) => (
+                <LevelCard key={key} level={course} />
               ))
             ) : (
               <div className="flex items-center justify-center md:w-[80vw] mt-40">
@@ -71,4 +79,4 @@ function CoursesList() {
   );
 }
 
-export default CoursesList;
+export default LevelsList;

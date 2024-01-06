@@ -1,114 +1,272 @@
 import React from "react";
-import { FaUser } from "react-icons/fa6";
-import { MdOutlineDashboard } from "react-icons/md";
-import { HiOutlineUsers } from "react-icons/hi2";
-import { MdOutlineEventAvailable } from "react-icons/md";
-import { PiGraduationCap } from "react-icons/pi";
+import {
+  ChartPieIcon,
+  CalendarIcon,
+  AcademicCapIcon,
+  BoltIcon,
+  UserGroupIcon,
+  CurrencyRupeeIcon,
+  ArrowLeftStartOnRectangleIcon,
+  PlusIcon,
+  UserIcon,
+  PlusCircleIcon,
+  UserPlusIcon,
+  ArrowTrendingUpIcon,
+  ClockIcon,
+} from "@heroicons/react/24/outline";
 import { Link, useLocation } from "react-router-dom";
 import SliderMenu from "../components/SliderMenu";
 import SearchBox from "./SearchBox";
-import { BsCurrencyRupee } from "react-icons/bs";
-import { TbActivity } from "react-icons/tb";
-import { HiOutlineUserGroup } from "react-icons/hi2";
+import { useMyContext } from "../context/Store";
+import { Cookies } from "react-cookie";
 
 const Header = () => {
   const { pathname } = useLocation();
+  const { state } = useMyContext();
+
   return (
     <div className={pathname.startsWith("/admin") ? "block md:w-20" : "hidden"}>
-      <div className="bg-stone-100 fixed top-0 left-0 right-0 md:hidden px-2 py-2 flex flex-col gap-3 border-b rounded-b-2xl shadow z-[2000]">
+      <div className="fixed top-0 left-0 right-0 md:hidden px-2 py-2 backdrop-blur-lg z-[2000] drop-shadow-lg">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-5">
             <SliderMenu />
-            <p className="text-xl font-bold text-gray-700">Sanjeevani</p>
+            <Link to={"/"}>
+              <p className="text-xl font-bold text-gray-700">Sanjeevani</p>
+            </Link>
           </div>
-          <div className="text-2xl bg-white p-2 rounded-full border drop-shadow-sm">
-            <FaUser />
+          <div className="text-2xl bg-purple-100 p-2 rounded-full drop-shadow-sm text-purple-600 ">
+            <UserIcon className="h-6 w-6" />
           </div>
         </div>
-        <SearchBox />
       </div>
-      <aside className="fixed p-4 md:flex flex-col items-center min-h-screen hidden w-20 bg-stone-100 gap-8">
-        <div className="text-2xl bg-white p-3 rounded-full border shadow">
-          <FaUser />
-        </div>
-        <div className="flex items-center flex-col gap-5">
-          <Link to={"/admin/dashboard"}>
-            <div
-              className={`text-2xl ${
-                pathname === "/admin/dashboard"
-                  ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
-                  : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
-              }`}
+      <aside className="fixed md:flex flex-col items-center min-h-screen hidden w-[16vw]">
+        <div className="md:fixed md:flex flex-col px-3 bg-white min-w-56 rounded-r-lg min-h-screen justify-between hidden">
+          <div>
+            <Link to={"/"}>
+              <p className="text-xl font-bold text-gray-700 p-3 pb-3">
+                Sanjeevani
+              </p>
+            </Link>
+            <p className="text-sm font-semibold text-gray-400 pb-1">Pages</p>
+            <Link to={"/admin/dashboard"}>
+              <div
+                className={`font-semibold  ${
+                  pathname === "/admin/dashboard"
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1 px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <ChartPieIcon className="h-6 w-6" />
+                DashBoard
+              </div>
+            </Link>
+            <Link
+              to={"/admin/volunteers"}
+              hidden={pathname.startsWith("/admin/courses/")}
             >
-              <MdOutlineDashboard />
-            </div>
-          </Link>
-          <Link to={"/admin/users"}>
-            <div
-              className={`text-2xl ${
-                pathname === "/admin/users"
-                  ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
-                  : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
-              }`}
+              <div
+                className={`font-semibold ${
+                  pathname === "/admin/volunteers"
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <UserIcon className="h-6 w-6" />
+                Volunteers
+              </div>
+            </Link>
+            <Link
+              to={"/admin/programs"}
+              hidden={pathname.startsWith("/admin/courses/")}
             >
-              <HiOutlineUsers />
-            </div>
-          </Link>
-          <Link to={"/admin/activities"}>
-            <div
-              className={`text-2xl ${
-                pathname === "/admin/activities"
-                  ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
-                  : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
-              }`}
+              <div
+                className={`font-semibold ${
+                  pathname === "/admin/programs"
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <CalendarIcon className="h-6 w-6" />
+                Programs
+              </div>
+            </Link>
+            <Link
+              to={"/admin/activities"}
+              hidden={pathname.startsWith("/admin/courses/")}
             >
-              <TbActivity />
-            </div>
-          </Link>
-          <Link to={"/admin/programs"}>
-            <div
-              className={`text-2xl ${
-                pathname === "/admin/programs"
-                  ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
-                  : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
-              }`}
+              <div
+                className={`font-semibold ${
+                  pathname === "/admin/activities"
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <BoltIcon className="h-6 w-6" />
+                Activities
+              </div>
+            </Link>
+            <Link to={"/admin/courses"}>
+              <div
+                className={`font-semibold ${
+                  pathname === "/admin/courses"
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <AcademicCapIcon className="h-6 w-6" />
+                Courses
+              </div>
+            </Link>
+            <Link
+              to={"/admin/participants"}
+              hidden={pathname.startsWith("/admin/courses/")}
             >
-              <MdOutlineEventAvailable />
-            </div>
-          </Link>
-          <Link to={"/admin/courses"}>
-            <div
-              className={`text-2xl ${
-                pathname === "/admin/courses"
-                  ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
-                  : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
-              }`}
+              <div
+                className={`font-semibold ${
+                  pathname === "/admin/participants"
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <UserGroupIcon className="h-6 w-6" />
+                Participants
+              </div>
+            </Link>
+            {/* this is the dinamic header link for courseDetails */}
+            <Link
+              to={`/admin/courses/levels/${state?.code?.code}`}
+              hidden={!pathname.startsWith("/admin/courses/")}
             >
-              <PiGraduationCap />
-            </div>
-          </Link>
-          <Link to={"/admin/participants"}>
-            <div
-              className={`text-2xl ${
-                pathname === "/admin/participants"
-                  ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
-                  : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
-              }`}
+              <div
+                className={`font-semibold ${
+                  pathname === `/admin/courses/levels/${state?.code?.code}`
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <ArrowTrendingUpIcon className="h-6 w-6" />
+                Levels
+              </div>
+            </Link>
+            {/* this is the dinamic header link for courseDetails */}
+            <Link
+              to={`/admin/courses/sessions/${state?.code?.code}`}
+              hidden={!pathname.startsWith("/admin/courses/")}
             >
-              <HiOutlineUserGroup />
-            </div>
-          </Link>
-          <Link to={"/admin/donations"}>
-            <div
-              className={`text-2xl ${
-                pathname === "/admin/donations"
-                  ? " text-lime-500 bg-stone-700 p-1 rounded-full border-2 border-lime-500 shadow"
-                  : " text-stone-400 p-1 transition-colors duration-300 hover:bg-stone-200 hover:rounded-full"
-              }`}
+              <div
+                className={`font-semibold ${
+                  pathname === `/admin/courses/sessions/${state?.code?.code}`
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <ClockIcon className="h-6 w-6" />
+                Sessions
+              </div>
+            </Link>
+            <Link
+              to={"/admin/donations"}
+              hidden={pathname.startsWith("/admin/courses/")}
             >
-              <BsCurrencyRupee />
-            </div>
-          </Link>
+              <div
+                className={`font-semibold ${
+                  pathname === "/admin/donations"
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <CurrencyRupeeIcon className="h-6 w-6" />
+                Donations
+              </div>
+            </Link>
+            <p className="text-sm font-semibold text-gray-400 pb-1">
+              Controllers
+            </p>
+            <Link
+              to={"/admin/addprogram"}
+              hidden={pathname.startsWith("/admin/courses/")}
+            >
+              <div
+                className={`font-semibold ${
+                  pathname === "/admin/addprogram"
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <PlusIcon className="h-6 w-6" />
+                Add Program
+              </div>
+            </Link>
+            {/* this is the dinamic header link for courseDetails */}
+            <Link
+              to={`/admin/courses/addlevel/${state?.code?.code}`}
+              hidden={!pathname.startsWith("/admin/courses/")}
+            >
+              <div
+                className={`font-semibold ${
+                  pathname === `/admin/courses/addlevel/${state?.code?.code}`
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <PlusIcon className="h-6 w-6" />
+                Add Levels
+              </div>
+            </Link>
+            {/* this is the dinamic header link for courseDetails */}
+            <Link
+              to={`/admin/courses/addsessions/${state?.code?.code}`}
+              hidden={!pathname.startsWith("/admin/courses/")}
+            >
+              <div
+                className={`font-semibold ${
+                  pathname === `/admin/courses/addsessions/${state?.code?.code}`
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <PlusCircleIcon className="h-6 w-6" />
+                Add Sessions
+              </div>
+            </Link>
+            <Link
+              to={"/admin/addcourse"}
+              hidden={pathname.startsWith("/admin/courses/")}
+            >
+              <div
+                className={`font-semibold ${
+                  pathname === "/admin/addcourse"
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <PlusCircleIcon className="h-6 w-6" />
+                Add Course
+              </div>
+            </Link>
+            <Link
+              to={"/admin/addvolunteer"}
+              hidden={pathname.startsWith("/admin/courses/")}
+            >
+              <div
+                className={`font-semibold ${
+                  pathname === "/admin/addvolunteer"
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <UserPlusIcon className="h-6 w-6" />
+                Add Volunteer
+              </div>
+            </Link>
+          </div>
+          <button
+            className="font-semibold text-white bg-cyan-700 hover:bg-cyan-800  m-1  px-4 py-1.5 rounded-lg flex items-center gap-5"
+            onClick={() => window.alert("you clicked logout")}
+          >
+            <ArrowLeftStartOnRectangleIcon className="h-6 w-6" />
+            Logout
+          </button>
         </div>
       </aside>
     </div>

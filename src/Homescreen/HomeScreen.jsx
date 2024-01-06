@@ -9,16 +9,16 @@ export default function Home() {
       animate="visible"
       exit={{ opacity: 0, transition: { duration: 1 } }}
       variants={{ visible: { transition: { staggerChildren: 0.3 } } }}
-      className="min-h-screen flex flex-col items-center justify-center"
+      className="min-h-screen bg-stone-100 flex flex-col items-center justify-center"
     >
       <motion.div className="flex md:flex-row flex-col items-center justify-center">
         <ImageComponent />
         <motion.div className="flex items-center flex-col gap-10">
-          <motion.text
+          <motion.div
             className={"text-xl md:text-3xl font-bold text-orange-500"}
           >
-            This is a portal for administration
-          </motion.text>
+            <p>This is a portal for administration</p>
+          </motion.div>
           <motion.button
             variants={{
               rest: { scale: 1 },

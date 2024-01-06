@@ -14,10 +14,30 @@ const myReducer = (state, action) => {
   }
 };
 
+const courseDetails = (state, action) => {
+  switch (action.type) {
+    case "UPDATE_CODE":
+      return { ...state, code: action.payload };
+    default:
+      return state;
+  }
+};
+// Step 3: Create a root reducer that combines sub-reducers
+const rootReducer = (state, action) => {
+  return {
+    data: myReducer(state.data, action),
+    code: courseDetails(state.code, action),
+    // Add more sub-reducers as needed
+  };
+};
+
 // Step 3: Create a Context Provider component
 const MyProvider = ({ children }) => {
   // Use useReducer hook to manage state and dispatch actions
-  const [state, dispatch] = useReducer(myReducer, { data: null });
+  const [state, dispatch] = useReducer(rootReducer, {
+    data: { data: null },
+    code: { code: " " },
+  });
 
   // Define the context value with state and dispatch
   const contextValue = { state, dispatch };
