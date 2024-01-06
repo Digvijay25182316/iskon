@@ -80,7 +80,7 @@ function AddCourseForm() {
     setErrorMessage("");
   };
   return (
-    <div className="min-h-screen md:ml-36">
+    <div className="min-h-screen md:ml-36 md:mt-0 mt-14">
       <div className="bg-white m-5 pt-16 rounded-xl pb-6">
         <h1 className="text-2xl font-bold text-gray-700 md:ml-20 ml-10 mb-16">
           Add New Course

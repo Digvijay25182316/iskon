@@ -44,7 +44,7 @@ function Participant() {
   }, [isErrorNames]);
 
   return (
-    <div className="md:w-[80vw] w-screen md:ml-36">
+    <div className="md:w-[80vw] w-screen md:ml-36 md:mt-0 mt-16">
       <p className="text-2xl font-bold text-gray-600 pl-10 pt-10">
         Participants
       </p>

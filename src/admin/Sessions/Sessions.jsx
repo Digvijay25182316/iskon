@@ -14,6 +14,7 @@ function Sessions() {
   const [isErrorNames, setIsErrorCourse] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [SessionNames, setSessionNames] = useState([]);
+  console.log(code);
 
   useEffect(() => {
     if (code) {
@@ -44,7 +45,7 @@ function Sessions() {
     })();
   }, [dispatch, code, isErrorNames]);
   return (
-    <div className="md:pl-36">
+    <div className="md:pl-36 md:mt-0 mt-14">
       <p className="text-2xl font-bold text-gray-600 pl-10 pt-5">Sessions</p>
       <div className="md:px-10 px-5">
         {isLoading ? (

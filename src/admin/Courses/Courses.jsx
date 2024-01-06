@@ -37,7 +37,7 @@ function CoursesList() {
     })();
   }, [isErrorNames]);
   return (
-    <div className="md:pl-36">
+    <div className="md:pl-36 md:mt-0 mt-14">
       <p className="text-2xl font-bold text-gray-600 pl-10 pt-5">Courses</p>
       <div className="md:px-10 px-5">
         {isLoading ? (

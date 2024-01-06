@@ -34,10 +34,12 @@ function AddVolunteerForm() {
       body: JSON.stringify(formdata),
     })
       .then((data) => {
+        console.log(data);
         data.ok && setIsSuccess(true);
         return data.json();
       })
       .then((data) => {
+        console.log(data);
         isSuccess
           ? setSuccessMessage(data.message)
           : setErrorMessage(data.message);
@@ -56,7 +58,7 @@ function AddVolunteerForm() {
     setErrorMessage("");
   };
   return (
-    <div className="min-h-screen md:ml-36">
+    <div className="min-h-screen md:ml-36 md:mt-0 mt-14">
       <div className="bg-white m-5 pt-10 rounded-xl pb-6">
         <h1 className="text-2xl font-bold text-gray-700 md:ml-20 ml-10 mb-10">
           Register New Volunteer

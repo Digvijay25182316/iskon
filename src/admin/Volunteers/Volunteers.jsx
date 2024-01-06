@@ -55,7 +55,7 @@ function VolunteersList() {
   };
 
   return (
-    <div className="min-h-screen md:ml-36">
+    <div className="min-h-screen md:ml-36 md:mt-0 mt-14">
       <div className="flex items-center pt-10 justify-between">
         <p className="text-2xl font-bold text-gray-600 pl-10 ">Volunteers</p>
         <div className="pr-10">

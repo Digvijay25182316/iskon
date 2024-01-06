@@ -24,9 +24,7 @@ function App() {
     <BrowserRouter>
       <div className="flex font-nunito">
         <Header />
-        <div
-          className={`bg-blue-50 min-h-screen flex-1 font-nunito md:mt-0 mt-14`}
-        >
+        <div className={`bg-blue-50 min-h-screen flex-1 font-nunito`}>
           <Routes>
             <Route path="/" element={<HomeScreen />} />
             <Route path="/admin/dashboard" element={<Dashboard />} />

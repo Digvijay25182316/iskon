@@ -44,7 +44,7 @@ function ProgramsList() {
     setErrorMessage("");
   };
   return (
-    <div className="min-h-screen md:ml-36">
+    <div className="min-h-screen md:ml-36 md:mt-0 mt-14">
       <p className="text-2xl font-bold text-gray-600 pl-10 pt-10">Programs</p>
       <div className="md:px-10 px-5 ">
         {isLoading ? (

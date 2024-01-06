@@ -1,6 +1,7 @@
 import {
   AcademicCapIcon,
   CalendarIcon,
+  ExclamationTriangleIcon,
   EyeIcon,
   PencilSquareIcon,
   TrashIcon,
@@ -9,10 +10,12 @@ import {
 import React, { useState } from "react";
 import ViewModal from "./ViewModal";
 import UpdateModal from "./UpdateModal";
+import DeleteModal from "../../components/DeleteModal";
 
 function ProgramCard({ program }) {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   return (
     <div className="bg-white p-3 rounded-2xl shadow flex flex-col">
       <div className=" flex items-center justify-between">
@@ -32,7 +35,12 @@ function ProgramCard({ program }) {
           >
             <PencilSquareIcon className="h-6 w-6" />
           </button>
-          <button className="bg-red-100 text-red-500 transition-colors duration-500 hover:text-purple-500 hover:bg-purple-100 px-2 py-1 rounded-lg">
+          <button
+            className="bg-red-100 text-red-500 transition-colors duration-500 hover:text-purple-500 hover:bg-purple-100 px-2 py-1 rounded-lg"
+            onClick={() => {
+              setIsDeleteOpen(true);
+            }}
+          >
             <TrashIcon className="h-6 w-6" />
           </button>
         </div>
@@ -119,6 +127,29 @@ function ProgramCard({ program }) {
         toggleSlider={() => setIsUpdateOpen(false)}
         id={program._id}
       />
+      <DeleteModal onClose={() => setIsDeleteOpen(false)}>
+        <div className="flex flex-col items-center gap-3">
+          <p className="text-red-400 bg-red-100 p-1 rounded-full">
+            <ExclamationTriangleIcon className="h-10 w-10" />
+          </p>
+          <p className="text-lg font-bold">Are You Sure ?</p>
+          <p className="w-60 text-center text-gray-600">
+            Deleting this course cannot be undone. All Values associated with
+            this course will be lost
+          </p>
+          <div className="flex flex-col gap-2">
+            <button className="border w-full px-5 py-1.5 text-lg rounded-md bg-red-500 text-white hover:bg-red-700">
+              Delete Course
+            </button>
+            <button
+              className="border w-full px-5 py-1.5 text-lg rounded-md bg-blue-500 text-white hover:bg-blue-700"
+              onClick={() => setIsDeleteOpen(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </DeleteModal>
     </div>
   );
 }
