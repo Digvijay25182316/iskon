@@ -150,6 +150,7 @@ const Step1 = ({ personalInfo, setPersonalInfo, nextStep }) => {
           <input
             type="text"
             name="firstName"
+            placeholder="enter your first name"
             value={personalInfo.firstName}
             onChange={(e) => setPersonalInfo("firstName", e.target.value)}
             className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
@@ -160,6 +161,7 @@ const Step1 = ({ personalInfo, setPersonalInfo, nextStep }) => {
           <input
             type="text"
             name="lastName"
+            placeholder="enter your last name"
             value={personalInfo.lastName}
             onChange={(e) => setPersonalInfo("lastName", e.target.value)}
             className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
@@ -226,8 +228,9 @@ const Step2 = ({ contactInfo, setContactInfo, nextStep, prevStep }) => {
         <div className="flex flex-col gap-1">
           <label className="block text-gray-700 mb-2">Whatsapp:</label>
           <input
-            type="number"
+            type="tel"
             name="waNumber"
+            placeholder="9944267210"
             value={contactInfo.waNumber}
             onChange={(e) => setContactInfo("waNumber", e.target.value)}
             className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
@@ -236,8 +239,9 @@ const Step2 = ({ contactInfo, setContactInfo, nextStep, prevStep }) => {
         <div className="flex flex-col gap-1">
           <label className="block text-gray-700 mb-2">Contact Number:</label>
           <input
-            type="text"
+            type="tel"
             name="contactNumber"
+            placeholder="9444267210"
             value={contactInfo.contactNumber}
             onChange={(e) => setContactInfo("contactNumber", e.target.value)}
             className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
@@ -249,6 +253,7 @@ const Step2 = ({ contactInfo, setContactInfo, nextStep, prevStep }) => {
             type="text"
             name="email"
             value={contactInfo.email}
+            placeholder="xyz@example.com"
             onChange={(e) => setContactInfo("email", e.target.value)}
             className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
           />
@@ -258,6 +263,9 @@ const Step2 = ({ contactInfo, setContactInfo, nextStep, prevStep }) => {
           <input
             type="text"
             name="address"
+            placeholder="123 Main Street
+            Citytown, Stateville 98765
+            Countryland"
             value={contactInfo.address}
             onChange={(e) => setContactInfo("address", e.target.value)}
             className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
@@ -268,6 +276,7 @@ const Step2 = ({ contactInfo, setContactInfo, nextStep, prevStep }) => {
           <input
             type="text"
             name="city"
+            placeholder="pune"
             value={contactInfo.city}
             onChange={(e) => setContactInfo("city", e.target.value)}
             className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
@@ -304,6 +313,7 @@ const Step3 = ({ otherInfo, setOtherInfo, prevStep, handleSubmit }) => {
             type="text"
             name="education"
             value={otherInfo.education}
+            placeholder="Bachelor of Science"
             onChange={(e) => setOtherInfo("education", e.target.value)}
             className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
           />
@@ -314,6 +324,7 @@ const Step3 = ({ otherInfo, setOtherInfo, prevStep, handleSubmit }) => {
             type="text"
             name="occupation"
             value={otherInfo.occupation}
+            placeholder="Teacher / Marketing Specialist / Software Engineer"
             onChange={(e) => setOtherInfo("occupation", e.target.value)}
             className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
           />
@@ -324,6 +335,7 @@ const Step3 = ({ otherInfo, setOtherInfo, prevStep, handleSubmit }) => {
             type="text"
             name="reference"
             value={otherInfo.reference}
+            placeholder="friends / posters / college"
             onChange={(e) => setOtherInfo("reference", e.target.value)}
             className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
           />
