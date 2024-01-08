@@ -5,24 +5,21 @@ import LevelCard from "./LevelCard";
 import courseNames from "../../data/Courses";
 import { useParams } from "react-router-dom";
 import { useMyContext } from "../../context/Store";
+import { SERVER_ENDPOINT } from "../../lib/server";
 
 function LevelsList() {
   const { dispatch } = useMyContext();
-  const { code } = useParams();
-
+  const { program } = useParams();
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [isErrorNames, setIsErrorCourse] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [LevelNames, setLevelNames] = useState(courseNames ? courseNames : []);
-  const [successMessage, setSuccessMessage] = useState("");
   useEffect(() => {
-    if (code) {
-      dispatch({ type: "UPDATE_CODE", payload: code });
+    if (program) {
+      dispatch({ type: "UPDATE_PROGRAM", payload: program });
     }
     (async () => {
-      setIsLoading(true);
-      await fetch("/api/admin/course")
+      await fetch(`${SERVER_ENDPOINT}/level/program/${program}`)
         .then((data) => {
           if (data.ok) {
             return data.json();
@@ -34,7 +31,7 @@ function LevelsList() {
         .then((data) => {
           isErrorNames
             ? setErrorMessage(data.message)
-            : setLevelNames(data.data);
+            : setLevelNames(data.content);
         })
         .catch((error) => {
           setErrorMessage(error.message || "An error occurred");
@@ -43,9 +40,10 @@ function LevelsList() {
           setIsLoading(false);
         });
     })();
-  }, [isErrorNames, code, dispatch]);
+  }, [isErrorNames, program, dispatch]);
   return (
     <div className="md:pl-36 md:mt-0 mt-14">
+      {errorMessage}
       <p className="text-2xl font-bold text-gray-600 pl-10 pt-5">Courses</p>
       <div className="md:px-10 px-5">
         {isLoading ? (
@@ -61,8 +59,8 @@ function LevelsList() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5">
             {LevelNames ? (
-              LevelNames?.map((course, key) => (
-                <LevelCard key={key} level={course} />
+              LevelNames?.map((level, key) => (
+                <LevelCard key={key} level={level} />
               ))
             ) : (
               <div className="flex items-center justify-center md:w-[80vw] mt-40">

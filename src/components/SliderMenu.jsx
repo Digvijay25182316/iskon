@@ -9,6 +9,7 @@ import {
   ChartPieIcon,
   ClockIcon,
   CurrencyRupeeIcon,
+  DocumentMagnifyingGlassIcon,
   PlusCircleIcon,
   PlusIcon,
   UserGroupIcon,
@@ -78,7 +79,10 @@ const Slider = () => {
             </Link>
             <Link
               to={"/admin/volunteers"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={
+                pathname.startsWith("/admin/courses/") ||
+                pathname.startsWith("/admin/programs/")
+              }
             >
               <button
                 onClick={toggleSlider}
@@ -94,7 +98,7 @@ const Slider = () => {
             </Link>
             <Link
               to={"/admin/programs"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={!pathname.startsWith("/admin/programs/")}
             >
               <button
                 onClick={toggleSlider}
@@ -110,7 +114,10 @@ const Slider = () => {
             </Link>
             <Link
               to={"/admin/activities"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={
+                pathname.startsWith("/admin/courses/") ||
+                pathname.startsWith("/admin/programs/")
+              }
             >
               <button
                 onClick={toggleSlider}
@@ -124,7 +131,10 @@ const Slider = () => {
                 Activities
               </button>
             </Link>
-            <Link to={"/admin/courses"}>
+            <Link
+              to={"/admin/courses"}
+              hidden={!pathname.startsWith("/admin/courses/")}
+            >
               <button
                 onClick={toggleSlider}
                 className={`font-semibold w-full ${
@@ -139,7 +149,10 @@ const Slider = () => {
             </Link>
             <Link
               to={"/admin/participants"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={
+                pathname.startsWith("/admin/courses/") ||
+                pathname.startsWith("/admin/programs/")
+              }
             >
               <button
                 onClick={toggleSlider}
@@ -153,31 +166,67 @@ const Slider = () => {
                 Participants
               </button>
             </Link>
-            {/* this is the dinamic header link for courseDetails */}
+            {/* this is the dinamic header link for CourseDetails */}
             <Link
-              to={`/admin/courses/levels/${state?.code?.code}`}
+              to={`/admin/courses/${state?.code?.code}`}
               hidden={!pathname.startsWith("/admin/courses/")}
             >
-              <button
-                onClick={toggleSlider}
-                className={`font-semibold w-full ${
-                  pathname === `/admin/courses/levels/${state?.code?.code}`
+              <div
+                className={`font-semibold ${
+                  pathname === `/admin/courses/${state?.code?.code}`
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-3  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <DocumentMagnifyingGlassIcon className="h-6 w-6" />
+                Details
+              </div>
+            </Link>
+            {/* this is the dinamic header link for programDetails */}
+            <Link
+              to={`/admin/programs/${state?.program?.program}`}
+              hidden={!pathname.startsWith("/admin/programs/")}
+            >
+              <div
+                className={`font-semibold ${
+                  pathname ===
+                  `/admin/programs/${encodeURIComponent(
+                    state?.program?.program
+                  )}`
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-3  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <DocumentMagnifyingGlassIcon className="h-6 w-6" />
+                Details
+              </div>
+            </Link>
+            {/* this is the dinamic header link for courseDetails */}
+            <Link
+              to={`/admin/programs/levels/${state?.program?.program}`}
+              hidden={!pathname.startsWith("/admin/programs/")}
+            >
+              <div
+                className={`font-semibold ${
+                  pathname ===
+                  `/admin/programs/levels/${encodeURIComponent(
+                    state?.program?.program
+                  )}`
                     ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
                     : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
                 } m-3  px-4 py-1.5 rounded-lg flex items-center gap-5`}
               >
                 <ArrowTrendingUpIcon className="h-6 w-6" />
                 Levels
-              </button>
+              </div>
             </Link>
             {/* this is the dinamic header link for courseDetails */}
             <Link
               to={`/admin/courses/sessions/${state?.code?.code}`}
               hidden={!pathname.startsWith("/admin/courses/")}
             >
-              <button
-                onClick={toggleSlider}
-                className={`font-semibold w-full ${
+              <div
+                className={`font-semibold ${
                   pathname === `/admin/courses/sessions/${state?.code?.code}`
                     ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
                     : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
@@ -185,11 +234,14 @@ const Slider = () => {
               >
                 <ClockIcon className="h-6 w-6" />
                 Sessions
-              </button>
+              </div>
             </Link>
             <Link
               to={"/admin/donations"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={
+                pathname.startsWith("/admin/courses/") ||
+                pathname.startsWith("/admin/programs/")
+              }
             >
               <button
                 onClick={toggleSlider}
@@ -208,7 +260,10 @@ const Slider = () => {
             </p>
             <Link
               to={"/admin/addprogram"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={
+                pathname.startsWith("/admin/courses/") ||
+                pathname.startsWith("/admin/programs/")
+              }
             >
               <button
                 onClick={toggleSlider}
@@ -222,22 +277,24 @@ const Slider = () => {
                 Add Program
               </button>
             </Link>
-            {/* this is the dinamic header link for courseDetails */}
+            {/* this is the dinamic header link for programLevels */}
             <Link
-              to={`/admin/courses/addlevel/${state?.code?.code}`}
-              hidden={!pathname.startsWith("/admin/courses/")}
+              to={`/admin/programs/addlevel/${state?.program?.program}`}
+              hidden={!pathname.startsWith("/admin/programs/")}
             >
-              <button
-                onClick={toggleSlider}
-                className={`font-semibold w-full ${
-                  pathname === `/admin/courses/addlevel/${state?.code?.code}`
+              <div
+                className={`font-semibold ${
+                  pathname ===
+                  `/admin/programs/addlevel/${encodeURIComponent(
+                    state?.program?.program
+                  )}`
                     ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
                     : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
-                } m-3  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
               >
                 <PlusIcon className="h-6 w-6" />
                 Add Levels
-              </button>
+              </div>
             </Link>
             {/* this is the dinamic header link for courseDetails */}
             <Link
@@ -245,13 +302,11 @@ const Slider = () => {
               hidden={!pathname.startsWith("/admin/courses/")}
             >
               <div
-                cbutton
-                onClick={toggleSlider}
-                sName={`font-semibold ${
+                className={`font-semibold ${
                   pathname === `/admin/courses/addsessions/${state?.code?.code}`
                     ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
                     : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
-                } m-3  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
               >
                 <PlusCircleIcon className="h-6 w-6" />
                 Add Sessions
@@ -259,7 +314,10 @@ const Slider = () => {
             </Link>
             <Link
               to={"/admin/addcourse"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={
+                pathname.startsWith("/admin/courses/") ||
+                pathname.startsWith("/admin/programs/")
+              }
             >
               <button
                 onClick={toggleSlider}
@@ -275,7 +333,10 @@ const Slider = () => {
             </Link>
             <Link
               to={"/admin/addvolunteer"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={
+                pathname.startsWith("/admin/courses/") ||
+                pathname.startsWith("/admin/programs/")
+              }
             >
               <button
                 onClick={toggleSlider}

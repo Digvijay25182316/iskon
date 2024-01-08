@@ -18,6 +18,8 @@ const courseDetails = (state, action) => {
   switch (action.type) {
     case "UPDATE_CODE":
       return { ...state, code: action.payload };
+    case "UPDATE_PROGRAM":
+      return { ...state, program: action.payload };
     default:
       return state;
   }
@@ -27,6 +29,7 @@ const rootReducer = (state, action) => {
   return {
     data: myReducer(state.data, action),
     code: courseDetails(state.code, action),
+    program: courseDetails(state.program, action),
     // Add more sub-reducers as needed
   };
 };
@@ -37,6 +40,7 @@ const MyProvider = ({ children }) => {
   const [state, dispatch] = useReducer(rootReducer, {
     data: { data: null },
     code: { code: " " },
+    program: { program: " " },
   });
 
   // Define the context value with state and dispatch

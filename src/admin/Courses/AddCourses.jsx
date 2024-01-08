@@ -1,44 +1,13 @@
-"use client";
 import Modal from "../../components/ResponseModal";
 import { PlusIcon } from "@heroicons/react/24/solid";
-import { Link } from "react-router-dom";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { SERVER_ENDPOINT } from "../../lib/server";
-const programs = [
-  "Gitasaar Batch 1",
-  "Gitasaar Batch 2",
-  "Gitasaar Batch 3",
-  "Gitasaar Batch 4",
-  "Gitasaar Batch 5",
-  "Gitasaar Batch 6",
-  "Gitasaar Batch 7",
-  "Gitasaar Batch 8",
-  "Gitasaar Batch 9",
-  "Gitasaar Batch 0",
-];
-const course_type = [
-  "Children Program",
-  "Boys",
-  "Girls",
-  "Family",
-  "Married Couples",
-  "Children",
-];
-const course_location = [
-  "In Temple",
-  "Temple Hall",
-  "Another Hall",
-  "HAll",
-  "Temple Hall",
-  "Children",
-];
 
 function AddCourseForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [programNames, setProgramNames] = useState(programs ? programs : []);
   const [successMessage, setSuccessMessage] = useState("");
   const formRef = useRef(null);
 

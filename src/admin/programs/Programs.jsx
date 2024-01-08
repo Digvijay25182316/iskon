@@ -3,46 +3,41 @@ import React, { useEffect, useState } from "react";
 import LoadingProgramSkeleton from "./ProgramLoadingSkeleton";
 import ProgramCard from "./ProgramCard";
 import programs from "../../data/Programs";
+import { SERVER_ENDPOINT } from "../../lib/server";
 
 function ProgramsList() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  // const [isErrorNames, setIsErrorProgram] = useState(false);
+
+  const [isErrorNames, setIsErrorProgram] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [ProgramsNames, setProgramsNames] = useState(programs ? programs : []);
-  // const [successMessage, setSuccessMessage] = useState("");
-  // useEffect(() => {
-  //   (async () => {
-  //     setIsLoading(true);
-  //     await fetch("/api/admin/program")
-  //       .then((data) => {
-  //         if (data.ok) {
-  //           return data.json();
-  //         } else {
-  //           setIsErrorProgram(true);
-  //           return data.json();
-  //         }
-  //       })
-  //       .then((data) => {
-  //         isErrorNames
-  //           ? setErrorMessage(data.message)
-  //           : setProgramsNames(data.data);
-  //       })
-  //       .catch((error) => {
-  //         setErrorMessage(error.message || "An error occurred");
-  //       })
-  //       .finally(() => {
-  //         setIsLoading(false);
-  //         isErrorNames && setIsModalOpen(true);
-  //       });
-  //   })();
-  // }, [isErrorNames]);
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setIsSuccess(false);
-    setErrorMessage("");
-  };
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      await fetch(`${SERVER_ENDPOINT}/program/`)
+        .then((data) => {
+          if (data.ok) {
+            return data.json();
+          } else {
+            setIsErrorProgram(true);
+            return data.json();
+          }
+        })
+        .then((data) => {
+          isErrorNames
+            ? setErrorMessage(data.message)
+            : setProgramsNames(data.content);
+        })
+        .catch((error) => {
+          setErrorMessage(error.message || "An error occurred");
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    })();
+  }, [isErrorNames]);
+
   return (
     <div className="min-h-screen md:ml-36 md:mt-0 mt-14">
       <p className="text-2xl font-bold text-gray-600 pl-10 pt-10">Programs</p>

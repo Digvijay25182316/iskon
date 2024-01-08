@@ -21,7 +21,7 @@ function CoursesCard({ course }) {
           <AcademicCapIcon className="h-6 w-6" />
         </p>
         <div className="flex items-center gap-5">
-          <Link to={`/admin/courses/levels/${course.code}`}>
+          <Link to={`/admin/courses/${course.code}`}>
             <button className="bg-gray-100 text-gray-500 transition-colors duration-500 hover:text-purple-500 hover:bg-purple-100 px-2 py-1 rounded-lg">
               <EyeIcon className="h-6 w-6" />
             </button>

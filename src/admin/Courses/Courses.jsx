@@ -2,12 +2,10 @@ import { AcademicCapIcon } from "@heroicons/react/24/solid";
 import React, { useEffect, useState } from "react";
 import LoadingCourseSkeleton from "./LoadingCourseSkeleton";
 import CoursesCard from "./CourseCard";
-import courseNames from "../../data/Courses";
 import { SERVER_ENDPOINT } from "../../lib/server";
 
 function CoursesList() {
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [isErrorNames, setIsErrorCourse] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [coursesNames, setCoursesNames] = useState([]);
@@ -38,6 +36,7 @@ function CoursesList() {
   }, [isErrorNames]);
   return (
     <div className="md:pl-36 md:mt-0 mt-14">
+      {errorMessage}
       <p className="text-2xl font-bold text-gray-600 pl-10 pt-5">Courses</p>
       <div className="md:px-10 px-5">
         {isLoading ? (

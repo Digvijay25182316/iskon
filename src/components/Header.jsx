@@ -13,12 +13,11 @@ import {
   UserPlusIcon,
   ArrowTrendingUpIcon,
   ClockIcon,
+  DocumentMagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import { Link, useLocation } from "react-router-dom";
 import SliderMenu from "../components/SliderMenu";
-import SearchBox from "./SearchBox";
 import { useMyContext } from "../context/Store";
-import { Cookies } from "react-cookie";
 
 const Header = () => {
   const { pathname } = useLocation();
@@ -62,7 +61,10 @@ const Header = () => {
             </Link>
             <Link
               to={"/admin/volunteers"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={
+                pathname.startsWith("/admin/courses/") ||
+                pathname.startsWith("/admin/programs/")
+              }
             >
               <div
                 className={`font-semibold ${
@@ -92,7 +94,10 @@ const Header = () => {
             </Link>
             <Link
               to={"/admin/activities"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={
+                pathname.startsWith("/admin/courses/") ||
+                pathname.startsWith("/admin/programs/")
+              }
             >
               <div
                 className={`font-semibold ${
@@ -105,7 +110,10 @@ const Header = () => {
                 Activities
               </div>
             </Link>
-            <Link to={"/admin/courses"}>
+            <Link
+              to={"/admin/courses"}
+              hidden={pathname.startsWith("/admin/programs/")}
+            >
               <div
                 className={`font-semibold ${
                   pathname === "/admin/courses"
@@ -119,7 +127,10 @@ const Header = () => {
             </Link>
             <Link
               to={"/admin/participants"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={
+                pathname.startsWith("/admin/courses/") ||
+                pathname.startsWith("/admin/programs/")
+              }
             >
               <div
                 className={`font-semibold ${
@@ -132,14 +143,52 @@ const Header = () => {
                 Participants
               </div>
             </Link>
-            {/* this is the dinamic header link for courseDetails */}
+            {/* this is the dinamic header link for CourseDetails */}
             <Link
-              to={`/admin/courses/levels/${state?.code?.code}`}
+              to={`/admin/courses/${state?.code?.code}`}
               hidden={!pathname.startsWith("/admin/courses/")}
             >
               <div
                 className={`font-semibold ${
-                  pathname === `/admin/courses/levels/${state?.code?.code}`
+                  pathname === `/admin/courses/${state?.code?.code}`
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <DocumentMagnifyingGlassIcon className="h-6 w-6" />
+                Details
+              </div>
+            </Link>
+            {/* this is the dinamic header link for programDetails */}
+            <Link
+              to={`/admin/programs/${state?.program?.program}`}
+              hidden={!pathname.startsWith("/admin/programs/")}
+            >
+              <div
+                className={`font-semibold ${
+                  pathname ===
+                  `/admin/programs/${encodeURIComponent(
+                    state?.program?.program
+                  )}`
+                    ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
+                    : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
+                } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
+              >
+                <DocumentMagnifyingGlassIcon className="h-6 w-6" />
+                Details
+              </div>
+            </Link>
+            {/* this is the dinamic header link for programLevels */}
+            <Link
+              to={`/admin/programs/levels/${state?.program?.program}`}
+              hidden={!pathname.startsWith("/admin/programs/")}
+            >
+              <div
+                className={`font-semibold ${
+                  pathname ===
+                  `/admin/programs/levels/${encodeURIComponent(
+                    state?.program?.program
+                  )}`
                     ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
                     : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
                 } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
@@ -166,7 +215,10 @@ const Header = () => {
             </Link>
             <Link
               to={"/admin/donations"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={
+                pathname.startsWith("/admin/courses/") ||
+                pathname.startsWith("/admin/programs/")
+              }
             >
               <div
                 className={`font-semibold ${
@@ -184,7 +236,10 @@ const Header = () => {
             </p>
             <Link
               to={"/admin/addprogram"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={
+                pathname.startsWith("/admin/courses/") ||
+                pathname.startsWith("/admin/programs/")
+              }
             >
               <div
                 className={`font-semibold ${
@@ -197,14 +252,17 @@ const Header = () => {
                 Add Program
               </div>
             </Link>
-            {/* this is the dinamic header link for courseDetails */}
+            {/* this is the dinamic header link for programLevels */}
             <Link
-              to={`/admin/courses/addlevel/${state?.code?.code}`}
-              hidden={!pathname.startsWith("/admin/courses/")}
+              to={`/admin/programs/addlevel/${state?.program?.program}`}
+              hidden={!pathname.startsWith("/admin/programs/")}
             >
               <div
                 className={`font-semibold ${
-                  pathname === `/admin/courses/addlevel/${state?.code?.code}`
+                  pathname ===
+                  `/admin/programs/addlevel/${encodeURIComponent(
+                    state?.program?.program
+                  )}`
                     ? "text-purple-500 bg-purple-100 transition-colors duration-300 hover:bg-purple-200"
                     : "text-gray-500 transition-colors duration-300 hover:bg-purple-200"
                 } m-1  px-4 py-1.5 rounded-lg flex items-center gap-5`}
@@ -231,7 +289,10 @@ const Header = () => {
             </Link>
             <Link
               to={"/admin/addcourse"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={
+                pathname.startsWith("/admin/courses/") ||
+                pathname.startsWith("/admin/programs/")
+              }
             >
               <div
                 className={`font-semibold ${
@@ -246,7 +307,10 @@ const Header = () => {
             </Link>
             <Link
               to={"/admin/addvolunteer"}
-              hidden={pathname.startsWith("/admin/courses/")}
+              hidden={
+                pathname.startsWith("/admin/courses/") ||
+                pathname.startsWith("/admin/programs/")
+              }
             >
               <div
                 className={`font-semibold ${

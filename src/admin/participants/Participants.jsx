@@ -17,6 +17,7 @@ function Participant() {
   const [errorMessage, setErrorMessage] = useState("");
   const [participantNames, setParticipantNames] = useState([]);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -102,8 +103,8 @@ function Participant() {
                             <PencilSquareIcon className="h-6 w-6" />
                           </button>
                           <button
-                            className="text-gray-500 bg-gray-200 hover:text-purple-500 transition-colors duration-300 hover:bg-purple-100 px-2 py-1 my-2 rounded-lg"
-                            onClick
+                            className="text-red-500 bg-red-100 hover:text-purple-500 transition-colors duration-300 hover:bg-purple-100 px-2 py-1 my-2 rounded-lg"
+                            onClick={() => setIsDeleteOpen(true)}
                           >
                             <TrashIcon className="h-6 w-6" />
                           </button>

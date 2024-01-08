@@ -1,8 +1,9 @@
 import Modal from "../../components/ResponseModal";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import React, { useEffect, useRef, useState } from "react";
+import { SERVER_ENDPOINT } from "../../lib/server";
 
-const audianceType = [
+const audienceType = [
   "Children Program",
   "Boys",
   "Girls",
@@ -29,47 +30,58 @@ function AddProgramForm() {
   const [volunteerNames, setVolunteerNames] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
 
-  // useEffect(() => {
-  //   (async () =>
-  //     await fetch("/api/admin/volunteer/getnames")
-  //       .then((data) => {
-  //         if (data.ok) {
-  //           return data.json();
-  //         } else {
-  //           setIsErrorNames(true);
-  //           return data.json();
-  //         }
-  //       })
-  //       .then((data) => {
-  //         isErrorNames
-  //           ? setIsErrorNames(data.message)
-  //           : setVolunteerNames(data.data);
-  //         console.log(data);
-  //       })
-  //       .catch((error) => {
-  //         setErrorMessage(error.message || "An error occurred");
-  //         console.log(error);
-  //       })
-  //       .finally(() => {
-  //         setIsLoading(false);
-  //         isErrorNames && setIsModalOpen(true);
-  //       }))();
-  // }, [isErrorNames]);
+  useEffect(() => {
+    (async () =>
+      await fetch(`${SERVER_ENDPOINT}/volunteer/`)
+        .then((data) => {
+          if (data.ok) {
+            return data.json();
+          } else {
+            setIsErrorNames(true);
+            return data.json();
+          }
+        })
+        .then((data) => {
+          isErrorNames
+            ? setIsErrorNames(data.message)
+            : setVolunteerNames(data.content);
+        })
+        .catch((error) => {
+          setErrorMessage(error.message || "An error occurred");
+          console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+          isErrorNames && setIsModalOpen(true);
+        }))();
+  }, [isErrorNames]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     const formdata = {
-      program_name: formRef.current?.program_name?.value,
-      program_description: formRef.current?.program_description?.value,
-      program_incharge: formRef.current?.program_incharge?.value,
-      program_preacher: formRef.current?.program_preacher?.value,
-      program_mentor: formRef.current?.program_mentor?.value,
-      program_coordinator: formRef.current?.program_coordinator?.value,
-      program_audiance: formRef.current?.program_audiance?.value,
-      program_location: formRef.current?.program_location?.value,
+      name: formRef.current?.name?.value,
+      description: formRef.current?.description?.value,
+      incharge: formRef.current?.incharge?.value
+        ? Number(formRef.current?.incharge?.value)
+        : 0,
+      preacher: formRef.current?.preacher?.value
+        ? Number(formRef.current?.preacher?.value)
+        : 0,
+      mentor: formRef.current?.mentor?.value
+        ? Number(formRef.current?.mentor?.value)
+        : 0,
+      coordinator: formRef.current?.coordinator?.value
+        ? Number(formRef.current?.coordinator?.value)
+        : 0,
+      audienceType: formRef.current?.audience?.value,
+      location: formRef.current?.location?.value,
     };
-    await fetch("/api/admin/program", {
+    console.log(JSON.stringify(formdata));
+    const header = new Headers();
+    header.append("ContentType", "application/json");
+    await fetch(`${SERVER_ENDPOINT}/program/create`, {
       method: "POST",
+      headers: header,
       body: JSON.stringify(formdata),
     })
       .then((data) => {
@@ -103,47 +115,41 @@ function AddProgramForm() {
         <form onSubmit={onSubmit} className="m-5" ref={formRef}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="flex flex-col w-full gap-2">
-              <label className="font-bold text-gray-700" htmlFor="program_name">
+              <label className="font-bold text-gray-700" htmlFor="name">
                 Program Name
               </label>
               <input
                 type="text"
                 placeholder="enter your program name"
-                name="program_name"
+                name="name"
                 className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white max-h-[40px]"
               />
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label
-                className="font-bold text-gray-700"
-                htmlFor="program_description"
-              >
+              <label className="font-bold text-gray-700" htmlFor="description">
                 Program Description
               </label>
               <textarea
-                name="program_description"
+                name="description"
                 placeholder="write some description about this course"
                 className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white"
               />
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label
-                className="font-bold text-gray-700"
-                htmlFor="program_preacher"
-              >
+              <label className="font-bold text-gray-700" htmlFor="preacher">
                 Program Preacher
               </label>
               <div className="flex items-center gap-2">
                 <select
-                  name="program_preacher"
+                  name="preacher"
                   className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white"
                 >
                   {volunteerNames ? (
                     volunteerNames?.map((volunteer, key) => (
-                      <option key={key} value={volunteer._id}>
-                        {volunteer.initiated_name
-                          ? volunteer.initiated_name
-                          : volunteer.first_name + volunteer.last_name}
+                      <option key={key} value={volunteer.id}>
+                        {volunteer.initiatedName
+                          ? volunteer.initiatedName
+                          : volunteer.firstName + volunteer.lastName}
                       </option>
                     ))
                   ) : (
@@ -159,23 +165,20 @@ function AddProgramForm() {
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label
-                className="font-bold text-gray-700"
-                htmlFor="program_incharge"
-              >
+              <label className="font-bold text-gray-700" htmlFor="incharge">
                 Program Incharge
               </label>
               <div className="flex items-center gap-2">
                 <select
-                  name="program_incharge"
+                  name="incharge"
                   className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white"
                 >
                   {volunteerNames ? (
                     volunteerNames?.map((volunteer, key) => (
-                      <option key={key} value={volunteer._id}>
-                        {volunteer.initiated_name
-                          ? volunteer.initiated_name
-                          : volunteer.first_name + volunteer.last_name}
+                      <option key={key} value={volunteer.id}>
+                        {volunteer.initiatedName
+                          ? volunteer.initiatedName
+                          : volunteer.firstName + volunteer.lastName}
                       </option>
                     ))
                   ) : (
@@ -191,23 +194,20 @@ function AddProgramForm() {
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label
-                className="font-bold text-gray-700"
-                htmlFor="program_coordinator"
-              >
+              <label className="font-bold text-gray-700" htmlFor="coordinator">
                 Program Coordinator
               </label>
               <div className="flex items-center gap-2">
                 <select
-                  name="program_coordinator"
+                  name="coordinator"
                   className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white"
                 >
                   {volunteerNames ? (
                     volunteerNames?.map((volunteer, key) => (
-                      <option key={key} value={volunteer._id}>
-                        {volunteer.initiated_name
-                          ? volunteer.initiated_name
-                          : volunteer.first_name + volunteer.last_name}
+                      <option key={key} value={volunteer.id}>
+                        {volunteer.initiatedName
+                          ? volunteer.initiatedName
+                          : volunteer.firstName + volunteer.lastName}
                       </option>
                     ))
                   ) : (
@@ -223,23 +223,20 @@ function AddProgramForm() {
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label
-                className="font-bold text-gray-700"
-                htmlFor="program_mentor"
-              >
+              <label className="font-bold text-gray-700" htmlFor="mentor">
                 Program Mentor
               </label>
               <div className="flex items-center gap-2">
                 <select
-                  name="program_mentor"
+                  name="mentor"
                   className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white"
                 >
                   {volunteerNames ? (
                     volunteerNames?.map((volunteer, key) => (
-                      <option key={key} value={volunteer._id}>
-                        {volunteer.initiated_name
-                          ? volunteer.initiated_name
-                          : volunteer.first_name + volunteer.last_name}
+                      <option key={key} value={volunteer.id}>
+                        {volunteer.initiatedName
+                          ? volunteer.initiatedName
+                          : volunteer.firstName + volunteer.lastName}
                       </option>
                     ))
                   ) : (
@@ -255,15 +252,12 @@ function AddProgramForm() {
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label
-                className="font-bold text-gray-700"
-                htmlFor="program_location"
-              >
+              <label className="font-bold text-gray-700" htmlFor="location">
                 Program Location
               </label>
               <div className="flex items-center gap-2">
                 <select
-                  name="program_location"
+                  name="location"
                   className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white"
                 >
                   {course_location?.map((type, key) => (
@@ -281,18 +275,15 @@ function AddProgramForm() {
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label
-                className="font-bold text-gray-700"
-                htmlFor="program_audiance"
-              >
-                Program Audiance Type
+              <label className="font-bold text-gray-700" htmlFor="audience">
+                Program Audience Type
               </label>
 
               <select
-                name="program_audiance"
+                name="audience"
                 className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white"
               >
-                {audianceType?.map((item, key) => (
+                {audienceType?.map((item, key) => (
                   <option key={key}>{item}</option>
                 ))}
               </select>

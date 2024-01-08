@@ -2,12 +2,12 @@ import Modal from "../../components/ResponseModal";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import React, { useEffect, useRef, useState } from "react";
 import programs from "../../data/Programs";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { SERVER_ENDPOINT } from "../../lib/server";
 import { useMyContext } from "../../context/Store";
 
 function AddLevelsForm() {
-  const { code } = useParams();
+  const { program } = useParams();
   const { dispatch } = useMyContext();
   const formRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,12 +16,36 @@ function AddLevelsForm() {
   const [isErrorNames, setIsErrorNames] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [volunteerNames, setVolunteerNames] = useState([]);
+  const [coursesNames, setCoursesNames] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
-    if (code) {
-      dispatch({ type: "UPDATE_CODE", payload: code });
+    if (program) {
+      dispatch({ type: "UPDATE_PROGRAM", payload: program });
     }
+    (async () =>
+      await fetch(`${SERVER_ENDPOINT}/course/`)
+        .then((data) => {
+          if (data.ok) {
+            return data.json();
+          } else {
+            setIsErrorNames(true);
+            return data.json();
+          }
+        })
+        .then((data) => {
+          isErrorNames
+            ? setIsErrorNames(data.message)
+            : setCoursesNames(data.content);
+        })
+        .catch((error) => {
+          setErrorMessage(error.message || "An error occurred");
+          console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+          isErrorNames && setIsModalOpen(true);
+        }))();
     (async () =>
       await fetch(`${SERVER_ENDPOINT}/volunteer/`)
         .then((data) => {
@@ -36,7 +60,6 @@ function AddLevelsForm() {
           isErrorNames
             ? setIsErrorNames(data.message)
             : setVolunteerNames(data.content);
-          console.log(data);
         })
         .catch((error) => {
           setErrorMessage(error.message || "An error occurred");
@@ -46,7 +69,7 @@ function AddLevelsForm() {
           setIsLoading(false);
           isErrorNames && setIsModalOpen(true);
         }))();
-  }, [isErrorNames, dispatch, code]);
+  }, [isErrorNames, dispatch, program]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -56,7 +79,7 @@ function AddLevelsForm() {
         : 0,
       description: formRef.current?.description?.value,
       programName: formRef.current?.programName?.value,
-      courseCode: code,
+      courseCode: formRef.current?.courseCode?.value,
       preacher1: formRef.current?.preacher1?.value
         ? Number(formRef.current?.preacher1?.value)
         : 0,
@@ -85,6 +108,7 @@ function AddLevelsForm() {
 
     const header = new Headers();
     header.append("Content-Type", "application/json");
+
     await fetch(`${SERVER_ENDPOINT}/level/create`, {
       method: "POST",
       headers: header,
@@ -145,27 +169,39 @@ function AddLevelsForm() {
               <label className="font-bold text-gray-700" htmlFor="programName">
                 Program Name
               </label>
+              <input
+                name="programName"
+                defaultValue={program}
+                className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white max-h-[40px]"
+              />
+            </div>
+            <div className="flex flex-col w-full gap-2">
+              <label className="font-bold text-gray-700" htmlFor="courseCode">
+                Course Code
+              </label>
               <div className="flex items-center gap-2">
                 <select
-                  name="programName"
+                  name="courseCode"
                   className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white"
                 >
-                  {programs ? (
-                    programs?.map((program, key) => (
-                      <option key={key} value={program.name}>
-                        {program.name}
+                  {coursesNames ? (
+                    coursesNames?.map((course, key) => (
+                      <option key={key} value={course.code}>
+                        {course.code}
                       </option>
                     ))
                   ) : (
-                    <option value="">No Program Available</option>
+                    <option value="">No Courses Available</option>
                   )}
                 </select>
-                <button
-                  className="bg-purple-100 text-purple-500 px-2 py-1 text-lg rounded-md flex items-center h-max w-max gap-2"
-                  type="button"
-                >
-                  <PlusIcon className="h-5 w-5" /> New
-                </button>
+                <Link to={"/admin/addcourse"}>
+                  <button
+                    className="bg-purple-100 text-purple-500 px-2 py-1 text-lg rounded-md flex items-center h-max w-max gap-2"
+                    type="button"
+                  >
+                    <PlusIcon className="h-5 w-5" /> New
+                  </button>
+                </Link>
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
@@ -189,12 +225,14 @@ function AddLevelsForm() {
                     <option value="">No Volunteers Available</option>
                   )}
                 </select>
-                <button
-                  className="bg-purple-100 text-purple-500 px-2 py-1 text-lg rounded-md flex items-center h-max w-max gap-2"
-                  type="button"
-                >
-                  <PlusIcon className="h-5 w-5" /> New
-                </button>
+                <Link to={"/admin/addvolunteer"}>
+                  <button
+                    className="bg-purple-100 text-purple-500 px-2 py-1 text-lg rounded-md flex items-center h-max w-max gap-2"
+                    type="button"
+                  >
+                    <PlusIcon className="h-5 w-5" /> New
+                  </button>
+                </Link>
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
@@ -218,12 +256,14 @@ function AddLevelsForm() {
                     <option value="">No Volunteers Available</option>
                   )}
                 </select>
-                <button
-                  className="bg-purple-100 text-purple-500 px-2 py-1 text-lg rounded-md flex items-center h-max w-max gap-2"
-                  type="button"
-                >
-                  <PlusIcon className="h-5 w-5" /> New
-                </button>
+                <Link to={"/admin/addvolunteer"}>
+                  <button
+                    className="bg-purple-100 text-purple-500 px-2 py-1 text-lg rounded-md flex items-center h-max w-max gap-2"
+                    type="button"
+                  >
+                    <PlusIcon className="h-5 w-5" /> New
+                  </button>
+                </Link>
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
@@ -247,12 +287,14 @@ function AddLevelsForm() {
                     <option value="">No Volunteers Available</option>
                   )}
                 </select>
-                <button
-                  className="bg-purple-100 text-purple-500 px-2 py-1 text-lg rounded-md flex items-center h-max w-max gap-2"
-                  type="button"
-                >
-                  <PlusIcon className="h-5 w-5" /> New
-                </button>
+                <Link to={"/admin/addvolunteer"}>
+                  <button
+                    className="bg-purple-100 text-purple-500 px-2 py-1 text-lg rounded-md flex items-center h-max w-max gap-2"
+                    type="button"
+                  >
+                    <PlusIcon className="h-5 w-5" /> New
+                  </button>
+                </Link>
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
@@ -276,12 +318,14 @@ function AddLevelsForm() {
                     <option value="">No Volunteers Available</option>
                   )}
                 </select>
-                <button
-                  className="bg-purple-100 text-purple-500 px-2 py-1 text-lg rounded-md flex items-center h-max w-max gap-2"
-                  type="button"
-                >
-                  <PlusIcon className="h-5 w-5" /> New
-                </button>
+                <Link to={"/admin/addvolunteer"}>
+                  <button
+                    className="bg-purple-100 text-purple-500 px-2 py-1 text-lg rounded-md flex items-center h-max w-max gap-2"
+                    type="button"
+                  >
+                    <PlusIcon className="h-5 w-5" /> New
+                  </button>
+                </Link>
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">

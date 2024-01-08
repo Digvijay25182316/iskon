@@ -7,37 +7,7 @@ import React, { useEffect, useState } from "react";
 import DateFormater from "../../components/Dateformatter";
 import programs from "../../data/Programs";
 
-function ViewModal({ id, toggleSlider, isOpen }) {
-  const [ProgramData, setProgramData] = useState(programs ? programs[0] : null);
-  const [isErrorNames, setIsErrorProgram] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-
-  //   useEffect(() => {
-  //     (async () => {
-  //       await fetch(`/api/admin/program/${id}`)
-  //         .then((data) => {
-  //           console.log(data);
-  //           if (data.ok) {
-  //             return data.json();
-  //           } else {
-  //             setIsErrorProgram(true);
-  //             return data.json();
-  //           }
-  //         })
-  //         .then((data) => {
-  //           isErrorNames
-  //             ? setIsErrorProgram(data.message)
-  //             : setProgramData(data.data);
-  //         })
-  //         .catch((error) => {
-  //           setErrorMessage(error.message || "An error occurred");
-  //         })
-  //         .finally(() => {
-  //           setIsLoading(false);
-  //         });
-  //     })();
-  //   }, [id, isErrorNames]);
+function ViewModal({ program, toggleSlider, isOpen }) {
   if (isOpen)
     return (
       <>
@@ -64,71 +34,51 @@ function ViewModal({ id, toggleSlider, isOpen }) {
                     <AcademicCapIcon className="h-8 w-8" />
                   </p>
                   <div>
-                    <p className="text-xl font-bold">
-                      {ProgramData?.program_name}
-                    </p>
-                    <p className="text-gray-500 ">
-                      {ProgramData?.program_description}
-                    </p>
+                    <p className="text-xl font-bold">{program?.programName}</p>
+                    <p className="text-gray-500 ">{program?.description}</p>
                   </div>
                 </div>
                 <div className="flex md:flex-row flex-col gap-10">
                   <div>
-                    <div className="mt-5 flex items-center gap-10">
-                      <div className="flex items-center text-gray-700 font-bold">
-                        Location :{" "}
-                        <p className="text-gray-600 font-normal">
-                          {ProgramData?.program_location}
-                        </p>
-                      </div>
-                      <div className="flex items-center text-gray-700 font-bold">
-                        Levels :{" "}
-                        <p className="bg-gray-100 font-normal px-2 rounded-lg text-purple-600">
-                          {ProgramData?.courses?.length.toString()}
-                        </p>
-                      </div>
+                    <div className="flex items-center text-gray-700 font-bold">
+                      Location :{" "}
+                      <p className="text-gray-600 font-normal">
+                        {program?.location}
+                      </p>
                     </div>
+
                     <div className="flex flex-col text-gray-700 font-bold mt-3">
                       Program Audience Type :{" "}
                       <div className="text-gray-600 font-normal">
-                        {ProgramData?.program_audiance?.map((item, key) => (
-                          <p key={key}>{item}</p>
-                        ))}
+                        {program?.audienceType}
                       </div>
                     </div>
 
-                    <div className="flex flex-wrap gap-5 mt-2">
-                      <div className="flex flex-col bg-purple-50 w-max p-2 rounded-xl">
-                        <p>Preacher : </p>
-                        {ProgramData?.program_preacher?.initiated_name ? (
-                          <p className="text-blue-500 hover:underline flex cursor-pointer">
-                            <UserCircleIcon className="h-6 w-6" />
-                            {ProgramData?.program_preacher?.initiated_name}
-                          </p>
-                        ) : (
-                          <p className="text-blue-500 hover:underline flex cursor-pointer">
-                            <UserCircleIcon className="h-6 w-6" />
-                            {ProgramData?.program_preacher?.first_name +
-                              " " +
-                              ProgramData?.program_preacher?.last_name}
-                          </p>
-                        )}
-                      </div>
+                    <div className="flex flex-col bg-purple-50 w-max p-2 rounded-xl">
+                      <p>Preacher : </p>
+                      {program?.preacher?.initiatedName ? (
+                        <p className="text-blue-500 hover:underline flex cursor-pointer">
+                          <UserCircleIcon className="h-6 w-6" />
+                          {program?.preacher?.initiatedName}
+                        </p>
+                      ) : (
+                        <p className="text-blue-500 hover:underline flex cursor-pointer">
+                          <UserCircleIcon className="h-6 w-6" />
+                          {program?.preacher?.firstName +
+                            " " +
+                            program?.preacher?.lastName}
+                        </p>
+                      )}
                     </div>
-                  </div>
-                  <div className="md:mt-0 md:text-start text-center font-semibold text-purple-700">
-                    {ProgramData?.courses?.length === 0 && (
-                      <p>No Levels To Show</p>
-                    )}
                   </div>
                 </div>
               </div>
             </div>
-            {errorMessage && (
+            {/* {errorMessage && (
               <div className="h-full w-full flex text-red-500 items-center justify-center">
                 {errorMessage}
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </>
