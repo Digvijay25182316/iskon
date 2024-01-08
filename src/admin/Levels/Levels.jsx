@@ -43,7 +43,7 @@ function LevelsList() {
   }, [isErrorNames, program, dispatch]);
   return (
     <div className="md:pl-36 md:mt-0 mt-14">
-      {errorMessage}
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
       <p className="text-2xl font-bold text-gray-600 pl-10 pt-5">Courses</p>
       <div className="md:px-10 px-5">
         {isLoading ? (
@@ -58,7 +58,7 @@ function LevelsList() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5">
-            {LevelNames ? (
+            {LevelNames?.length > 0 ? (
               LevelNames?.map((level, key) => (
                 <LevelCard key={key} level={level} />
               ))

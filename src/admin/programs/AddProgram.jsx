@@ -76,7 +76,6 @@ function AddProgramForm() {
       audienceType: formRef.current?.audience?.value,
       location: formRef.current?.location?.value,
     };
-    console.log(JSON.stringify(formdata));
     const header = new Headers();
     header.append("ContentType", "application/json");
     await fetch(`${SERVER_ENDPOINT}/program/create`, {
@@ -144,7 +143,7 @@ function AddProgramForm() {
                   name="preacher"
                   className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white"
                 >
-                  {volunteerNames ? (
+                  {volunteerNames?.length > 0 ? (
                     volunteerNames?.map((volunteer, key) => (
                       <option key={key} value={volunteer.id}>
                         {volunteer.initiatedName
@@ -173,7 +172,7 @@ function AddProgramForm() {
                   name="incharge"
                   className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white"
                 >
-                  {volunteerNames ? (
+                  {volunteerNames?.length > 0 ? (
                     volunteerNames?.map((volunteer, key) => (
                       <option key={key} value={volunteer.id}>
                         {volunteer.initiatedName
@@ -202,7 +201,7 @@ function AddProgramForm() {
                   name="coordinator"
                   className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white"
                 >
-                  {volunteerNames ? (
+                  {volunteerNames?.length > 0 ? (
                     volunteerNames?.map((volunteer, key) => (
                       <option key={key} value={volunteer.id}>
                         {volunteer.initiatedName
@@ -231,7 +230,7 @@ function AddProgramForm() {
                   name="mentor"
                   className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white"
                 >
-                  {volunteerNames ? (
+                  {volunteerNames?.length > 0 ? (
                     volunteerNames?.map((volunteer, key) => (
                       <option key={key} value={volunteer.id}>
                         {volunteer.initiatedName

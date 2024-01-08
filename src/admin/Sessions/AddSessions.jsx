@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useMyContext } from "../../context/Store";
 import { useParams } from "react-router-dom";
 import Modal from "../../components/ResponseModal";
-import { PlusIcon } from "@heroicons/react/24/outline";
 import { SERVER_ENDPOINT } from "../../lib/server";
 
 function AddSessions() {
@@ -12,16 +11,14 @@ function AddSessions() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isErrorNames, setIsErrorNames] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
   const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     if (code) {
       dispatch({ type: "UPDATE_CODE", payload: code });
     }
-  }, [isErrorNames, dispatch, code]);
+  }, [dispatch, code]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +32,6 @@ function AddSessions() {
       presentationUrl: formRef.current?.presentationUrl?.value,
       notesUrl: formRef.current?.notesUrl?.value,
     };
-    console.log(formdata);
     const header = new Headers();
     header.append("Content-Type", "application/json");
     await fetch(`${SERVER_ENDPOINT}/session/create`, {

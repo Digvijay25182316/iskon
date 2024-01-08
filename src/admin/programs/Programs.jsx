@@ -40,6 +40,7 @@ function ProgramsList() {
 
   return (
     <div className="min-h-screen md:ml-36 md:mt-0 mt-14">
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
       <p className="text-2xl font-bold text-gray-600 pl-10 pt-10">Programs</p>
       <div className="md:px-10 px-5 ">
         {isLoading ? (
@@ -51,7 +52,7 @@ function ProgramsList() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-            {ProgramsNames ? (
+            {ProgramsNames?.length > 0 ? (
               ProgramsNames?.map((program, key) => (
                 <ProgramCard program={program} key={key} />
               ))

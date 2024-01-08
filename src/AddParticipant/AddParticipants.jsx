@@ -29,50 +29,20 @@ const MultiStepForm = () => {
 
   const [currentStep, setCurrentStep] = useState(1);
 
-  const nextStep = () => {
-    setCurrentStep(currentStep + 1);
-  };
-
-  const prevStep = () => {
-    setCurrentStep(currentStep - 1);
-  };
-
-  const handleChange = (name, value) => {
-    if (name === "contactNumber" && value.length !== 10) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: "Contact number must be 10 digits",
-      }));
-    } else {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: undefined,
-      }));
-    }
-    setFormState((prevFormState) => ({
-      ...prevFormState,
-      [name]: value,
-    }));
-  };
-
   const validateStep = () => {
-    // Simple example: Check if required fields are filled
     const requiredFields = [
       "firstName",
       "lastName",
       "waNumber",
       "dob",
-      "gender",
       "contactNumber",
       "email",
       "address",
       "city",
-      "maritalStatus",
       "education",
       "occupation",
       "reference",
       "notes",
-      "numberOfChildren",
     ];
     const stepErrors = {};
 
@@ -85,6 +55,48 @@ const MultiStepForm = () => {
     setErrors(stepErrors);
 
     return Object.keys(stepErrors).length === 0; // Return true if no errors
+  };
+
+  const nextStep = () => {
+    setCurrentStep(currentStep + 1);
+  };
+
+  const prevStep = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const isValidEmail = (email) => {
+    // Basic email format validation using a regular expression
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleChange = (name, value) => {
+    if (name === "contactNumber" && value.length !== 10) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: "Contact number must be 10 digits",
+      }));
+    } else if (name === "waNumber" && value.length !== 10) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: "whatsapp number must be 10 digits",
+      }));
+    } else if (name === "email" && value && !isValidEmail(value)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: "Enter a valid email address",
+      }));
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: undefined,
+      }));
+    }
+    setFormState((prevFormState) => ({
+      ...prevFormState,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -109,6 +121,7 @@ const MultiStepForm = () => {
             : setErrorMessage(data.message);
         })
         .catch((error) => {
+          console.log(error);
           setErrorMessage(error.message || "An error occurred");
         })
         .finally(() => {
@@ -146,6 +159,7 @@ const MultiStepForm = () => {
             } md:min-w-40 min-w-24 rounded-lg`}
           ></p>
         </div>
+
         <form action="" className="flex">
           {currentStep === 1 && (
             <Step1
@@ -273,6 +287,7 @@ const Step1 = ({ personalInfo, setPersonalInfo, nextStep, errors }) => {
       <div className="flex justify-end">
         <button
           onClick={nextStep}
+          type="button"
           className="bg-orange-400 text-black px-6 py-1.5 rounded-md transition-color duration-500 hover:bg-orange-600 focus:outline-none"
         >
           Next
@@ -375,12 +390,14 @@ const Step2 = ({ contactInfo, setContactInfo, nextStep, prevStep, errors }) => {
       <div className="flex justify-between">
         <button
           onClick={prevStep}
+          type={"button"}
           className="bg-gray-200 text-black px-6 py-2 rounded-md transition-colors duration-500 hover:bg-gray-300 focus:outline-none"
         >
           Previous
         </button>
         <button
           onClick={nextStep}
+          type="button"
           className="bg-orange-400 text-black px-6 py-1.5 rounded-md transition-color duration-500 hover:bg-orange-600 focus:outline-none"
         >
           Next
@@ -465,26 +482,21 @@ const Step3 = ({ otherInfo, setOtherInfo, prevStep, handleSubmit, errors }) => {
             name="numberOfChildren"
             value={otherInfo.numberOfChildren}
             onChange={(e) => setOtherInfo("numberOfChildren", e.target.value)}
-            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white ${
-              errors.numberOfChildren ? "border-2 border-red-600" : ""
-            }`}
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white `}
           />
-          {errors.numberOfChildren && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.numberOfChildren}
-            </p>
-          )}
         </div>
       </div>
       <div className="flex justify-between">
         <button
           onClick={prevStep}
+          type={"button"}
           className="bg-gray-200 text-black px-6 py-2 rounded-md transition-colors duration-500 hover:bg-gray-300 focus:outline-none"
         >
           Previous
         </button>
         <button
           onClick={handleSubmit}
+          type="submit"
           className="bg-orange-400 text-black px-6 py-1.5 rounded-md transition-color duration-500 hover:bg-orange-600 focus:outline-none"
         >
           Submit

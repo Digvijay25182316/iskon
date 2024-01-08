@@ -51,7 +51,7 @@ function Participant() {
       </p>
       {!isLoading ? (
         <div className="md:px-10 px-5 py-5 lg:w-[83vw]">
-          {participantNames.length > 0 ? (
+          {participantNames?.length > 0 ? (
             <div className="overflow-scroll overflow-y-hidden text-gray-700">
               <table className="">
                 <thead>

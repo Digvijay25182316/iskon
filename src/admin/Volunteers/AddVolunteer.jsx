@@ -24,8 +24,10 @@ function AddVolunteerForm() {
         : "",
       gender: formRef.current?.gender?.value,
       address: formRef.current?.address?.value,
-      currentNervice: formRef.current?.currentService?.value,
+      serviceInterested: formRef.current?.serviceInterested?.value,
+      currentService: formRef.current?.currentService?.value,
     };
+    console.log(formdata);
     const header = new Headers();
     header.append("Content-Type", "application/json");
     await fetch(`${SERVER_ENDPOINT}/volunteer/create`, {
@@ -34,12 +36,10 @@ function AddVolunteerForm() {
       body: JSON.stringify(formdata),
     })
       .then((data) => {
-        console.log(data);
         data.ok && setIsSuccess(true);
         return data.json();
       })
       .then((data) => {
-        console.log(data);
         isSuccess
           ? setSuccessMessage(data.message)
           : setErrorMessage(data.message);
@@ -66,9 +66,7 @@ function AddVolunteerForm() {
         <form onSubmit={onSubmit} className="m-5" ref={formRef}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="flex flex-col w-full gap-2">
-              <label className="font-bold text-gray-700" htmlFor="firstName">
-                First Name
-              </label>
+              <label className="font-bold text-gray-700">First Name</label>
               <input
                 type="text"
                 name="firstName"
@@ -77,9 +75,7 @@ function AddVolunteerForm() {
               />
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label className="font-bold text-gray-700" htmlFor="lastName">
-                Last Name
-              </label>
+              <label className="font-bold text-gray-700">Last Name</label>
               <input
                 type="text"
                 name="lastName"
@@ -88,12 +84,7 @@ function AddVolunteerForm() {
               />
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label
-                className="font-bold text-gray-700"
-                htmlFor="initiatedName"
-              >
-                Initiated Name
-              </label>
+              <label className="font-bold text-gray-700">Initiated Name</label>
               <input
                 type="text"
                 name="initiatedName"
@@ -102,9 +93,7 @@ function AddVolunteerForm() {
               />
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label className="font-bold text-gray-700" htmlFor="waNumber">
-                Whatsapp Number
-              </label>
+              <label className="font-bold text-gray-700">Whatsapp Number</label>
               <input
                 type="tel"
                 name="waNumber"
@@ -113,12 +102,7 @@ function AddVolunteerForm() {
               />
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label
-                className="font-bold text-gray-700"
-                htmlFor="contactNumber"
-              >
-                Contact Number
-              </label>
+              <label className="font-bold text-gray-700">Contact Number</label>
               <input
                 type="tel"
                 name="contactNumber"
@@ -127,9 +111,7 @@ function AddVolunteerForm() {
               />
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label className="font-bold text-gray-700" htmlFor="email">
-                Email
-              </label>
+              <label className="font-bold text-gray-700">Email</label>
               <input
                 type="email"
                 name="email"
@@ -138,9 +120,7 @@ function AddVolunteerForm() {
               />
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label className="font-bold text-gray-700" htmlFor="dob">
-                Date Of Birth
-              </label>
+              <label className="font-bold text-gray-700">Date Of Birth</label>
               <input
                 type="date"
                 name="dob"
@@ -149,9 +129,7 @@ function AddVolunteerForm() {
               />
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label className="font-bold text-gray-700" htmlFor="gender">
-                Gender
-              </label>
+              <label className="font-bold text-gray-700">Gender</label>
               <select
                 name="gender"
                 className="border px-4 py-1.5 rounded-md flex-1 outline-none bg-white max-h-[40px]"
@@ -161,9 +139,7 @@ function AddVolunteerForm() {
               </select>
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label className="font-bold text-gray-700" htmlFor="address">
-                Address
-              </label>
+              <label className="font-bold text-gray-700">Address</label>
               <input
                 type="text"
                 name="address"
@@ -174,10 +150,7 @@ function AddVolunteerForm() {
               />
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label
-                className="font-bold text-gray-700"
-                htmlFor="serviceInterested"
-              >
+              <label className="font-bold text-gray-700">
                 Service Interested
               </label>
               <input
@@ -190,12 +163,7 @@ function AddVolunteerForm() {
               />
             </div>
             <div className="flex flex-col w-full gap-2">
-              <label
-                className="font-bold text-gray-700"
-                htmlFor="currentService"
-              >
-                Current Service
-              </label>
+              <label className="font-bold text-gray-700">Current Service</label>
               <input
                 type="text"
                 name="currentService"
