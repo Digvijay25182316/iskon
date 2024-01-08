@@ -8,6 +8,7 @@ const MultiStepForm = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [errors, setErrors] = useState({});
   const [formState, setFormState] = useState({
     firstName: "",
     lastName: "",
@@ -37,39 +38,84 @@ const MultiStepForm = () => {
   };
 
   const handleChange = (name, value) => {
+    if (name === "contactNumber" && value.length !== 10) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: "Contact number must be 10 digits",
+      }));
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: undefined,
+      }));
+    }
     setFormState((prevFormState) => ({
       ...prevFormState,
       [name]: value,
     }));
   };
 
+  const validateStep = () => {
+    // Simple example: Check if required fields are filled
+    const requiredFields = [
+      "firstName",
+      "lastName",
+      "waNumber",
+      "dob",
+      "gender",
+      "contactNumber",
+      "email",
+      "address",
+      "city",
+      "maritalStatus",
+      "education",
+      "occupation",
+      "reference",
+      "notes",
+      "numberOfChildren",
+    ];
+    const stepErrors = {};
+
+    requiredFields.forEach((field) => {
+      if (!formState[field]) {
+        stepErrors[field] = "This field is required";
+      }
+    });
+
+    setErrors(stepErrors);
+
+    return Object.keys(stepErrors).length === 0; // Return true if no errors
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    formState.dob = new Date(formState.dob).toISOString();
-    const header = new Headers();
-    console.log(formState);
-    header.append("Content-Type", "application/json");
-    await fetch(`${SERVER_ENDPOINT}/participant/create`, {
-      method: "POST",
-      headers: header,
-      body: JSON.stringify(formState),
-    })
-      .then((data) => {
-        data.ok && setIsSuccess(true);
-        return data.json();
+    if (validateStep()) {
+      formState.dob = new Date(formState.dob).toISOString();
+      const header = new Headers();
+      console.log(formState);
+      header.append("Content-Type", "application/json");
+      await fetch(`${SERVER_ENDPOINT}/participant/create`, {
+        method: "POST",
+        headers: header,
+        body: JSON.stringify(formState),
       })
-      .then((data) => {
-        isSuccess
-          ? setSuccessMessage(data.message)
-          : setErrorMessage(data.message);
-      })
-      .catch((error) => {
-        setErrorMessage(error.message || "An error occurred");
-      })
-      .finally(() => {
-        setIsLoading(false);
-        setIsModalOpen(true);
-      });
+        .then((data) => {
+          data.ok && setIsSuccess(true);
+          return data.json();
+        })
+        .then((data) => {
+          isSuccess
+            ? setSuccessMessage(data.message)
+            : setErrorMessage(data.message);
+        })
+        .catch((error) => {
+          setErrorMessage(error.message || "An error occurred");
+        })
+        .finally(() => {
+          setIsLoading(false);
+          setIsModalOpen(true);
+        });
+    }
   };
   const closeModal = () => {
     setIsModalOpen(false);
@@ -106,6 +152,7 @@ const MultiStepForm = () => {
               personalInfo={formState}
               setPersonalInfo={handleChange}
               nextStep={nextStep}
+              errors={errors}
             />
           )}
           {currentStep === 2 && (
@@ -114,6 +161,7 @@ const MultiStepForm = () => {
               setContactInfo={handleChange}
               nextStep={nextStep}
               prevStep={prevStep}
+              errors={errors}
             />
           )}
           {currentStep === 3 && (
@@ -122,6 +170,7 @@ const MultiStepForm = () => {
               setOtherInfo={handleChange}
               prevStep={prevStep}
               handleSubmit={handleSubmit}
+              errors={errors}
             />
           )}
         </form>
@@ -138,7 +187,7 @@ const MultiStepForm = () => {
   );
 };
 
-const Step1 = ({ personalInfo, setPersonalInfo, nextStep }) => {
+const Step1 = ({ personalInfo, setPersonalInfo, nextStep, errors }) => {
   return (
     <div className="w-full">
       <h2 className="text-xl text-center my-5 font-bold">
@@ -153,8 +202,13 @@ const Step1 = ({ personalInfo, setPersonalInfo, nextStep }) => {
             placeholder="enter your first name"
             value={personalInfo.firstName}
             onChange={(e) => setPersonalInfo("firstName", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white ${
+              errors.firstName ? "border-2 border-red-600" : ""
+            }`}
           />
+          {errors.firstName && (
+            <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <label className="block text-gray-700 mb-2">Last Name:</label>
@@ -164,8 +218,13 @@ const Step1 = ({ personalInfo, setPersonalInfo, nextStep }) => {
             placeholder="enter your last name"
             value={personalInfo.lastName}
             onChange={(e) => setPersonalInfo("lastName", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white ${
+              errors.lastName ? "border-2 border-red-600" : ""
+            }`}
           />
+          {errors.lastName && (
+            <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>
+          )}
         </div>
 
         <div className="flex flex-col gap-1">
@@ -175,8 +234,13 @@ const Step1 = ({ personalInfo, setPersonalInfo, nextStep }) => {
             name="dob"
             value={personalInfo.dob}
             onChange={(e) => setPersonalInfo("dob", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white ${
+              errors.dob ? "border-2 border-red-600" : ""
+            }`}
           />
+          {errors.dob && (
+            <p className="text-red-500 text-sm mt-1">{errors.dob}</p>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <label className="block text-gray-700 mb-2">Gender:</label>
@@ -185,7 +249,7 @@ const Step1 = ({ personalInfo, setPersonalInfo, nextStep }) => {
             name="gender"
             value={personalInfo.gender}
             onChange={(e) => setPersonalInfo("gender", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white `}
             defaultValue={"MALE"}
           >
             <option value="MALE">male</option>
@@ -199,7 +263,7 @@ const Step1 = ({ personalInfo, setPersonalInfo, nextStep }) => {
             name="maritalStatus"
             value={personalInfo.maritalStatus}
             onChange={(e) => setPersonalInfo("maritalStatus", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white`}
           >
             <option value="NonMarried">Non Married</option>
             <option value="Married">Married</option>
@@ -218,7 +282,7 @@ const Step1 = ({ personalInfo, setPersonalInfo, nextStep }) => {
   );
 };
 
-const Step2 = ({ contactInfo, setContactInfo, nextStep, prevStep }) => {
+const Step2 = ({ contactInfo, setContactInfo, nextStep, prevStep, errors }) => {
   return (
     <div className="w-full">
       <h2 className="text-xl text-center my-5 font-bold">
@@ -233,8 +297,13 @@ const Step2 = ({ contactInfo, setContactInfo, nextStep, prevStep }) => {
             placeholder="9944267210"
             value={contactInfo.waNumber}
             onChange={(e) => setContactInfo("waNumber", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white ${
+              errors.waNumber ? "border-2 border-red-600" : ""
+            }`}
           />
+          {errors.waNumber && (
+            <p className="text-red-500 text-sm mt-1">{errors.waNumber}</p>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <label className="block text-gray-700 mb-2">Contact Number:</label>
@@ -244,8 +313,13 @@ const Step2 = ({ contactInfo, setContactInfo, nextStep, prevStep }) => {
             placeholder="9444267210"
             value={contactInfo.contactNumber}
             onChange={(e) => setContactInfo("contactNumber", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white ${
+              errors.contactNumber ? "border-2 border-red-600" : ""
+            }`}
           />
+          {errors.contactNumber && (
+            <p className="text-red-500 text-sm mt-1">{errors.contactNumber}</p>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <label className="block text-gray-700 mb-2">email:</label>
@@ -255,8 +329,12 @@ const Step2 = ({ contactInfo, setContactInfo, nextStep, prevStep }) => {
             value={contactInfo.email}
             placeholder="xyz@example.com"
             onChange={(e) => setContactInfo("email", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white 
+            ${errors.email ? "border-2 border-red-600" : ""}`}
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <label className="block text-gray-700 mb-2">Address:</label>
@@ -268,8 +346,13 @@ const Step2 = ({ contactInfo, setContactInfo, nextStep, prevStep }) => {
             Countryland"
             value={contactInfo.address}
             onChange={(e) => setContactInfo("address", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white ${
+              errors.address ? "border-2 border-red-600" : ""
+            }`}
           />
+          {errors.address && (
+            <p className="text-red-500 text-sm mt-1">{errors.address}</p>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <label className="block text-gray-700 mb-2">City:</label>
@@ -279,8 +362,13 @@ const Step2 = ({ contactInfo, setContactInfo, nextStep, prevStep }) => {
             placeholder="pune"
             value={contactInfo.city}
             onChange={(e) => setContactInfo("city", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white ${
+              errors.city ? "border-2 border-red-600" : ""
+            }`}
           />
+          {errors.city && (
+            <p className="text-red-500 text-sm mt-1">{errors.city}</p>
+          )}
         </div>
       </div>
 
@@ -302,7 +390,7 @@ const Step2 = ({ contactInfo, setContactInfo, nextStep, prevStep }) => {
   );
 };
 
-const Step3 = ({ otherInfo, setOtherInfo, prevStep, handleSubmit }) => {
+const Step3 = ({ otherInfo, setOtherInfo, prevStep, handleSubmit, errors }) => {
   return (
     <div className="w-full">
       <h2 className="text-xl text-center my-5 font-bold">Other Information</h2>
@@ -315,8 +403,13 @@ const Step3 = ({ otherInfo, setOtherInfo, prevStep, handleSubmit }) => {
             value={otherInfo.education}
             placeholder="Bachelor of Science"
             onChange={(e) => setOtherInfo("education", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white ${
+              errors.education ? "border-2 border-red-600" : ""
+            }`}
           />
+          {errors.education && (
+            <p className="text-red-500 text-sm mt-1">{errors.education}</p>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <label className="block text-gray-700 mb-2">Occupations:</label>
@@ -326,8 +419,13 @@ const Step3 = ({ otherInfo, setOtherInfo, prevStep, handleSubmit }) => {
             value={otherInfo.occupation}
             placeholder="Teacher / Marketing Specialist / Software Engineer"
             onChange={(e) => setOtherInfo("occupation", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white ${
+              errors.occupation ? "border-2 border-red-600" : ""
+            }`}
           />
+          {errors.occupation && (
+            <p className="text-red-500 text-sm mt-1">{errors.occupation}</p>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <label className="block text-gray-700 mb-2">Reference:</label>
@@ -337,8 +435,13 @@ const Step3 = ({ otherInfo, setOtherInfo, prevStep, handleSubmit }) => {
             value={otherInfo.reference}
             placeholder="friends / posters / college"
             onChange={(e) => setOtherInfo("reference", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white ${
+              errors.reference ? "border-2 border-red-600" : ""
+            }`}
           />
+          {errors.reference && (
+            <p className="text-red-500 text-sm mt-1">{errors.reference}</p>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <label className="block text-gray-700 mb-2">notes:</label>
@@ -347,8 +450,13 @@ const Step3 = ({ otherInfo, setOtherInfo, prevStep, handleSubmit }) => {
             name="notes"
             value={otherInfo.notes}
             onChange={(e) => setOtherInfo("notes", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white ${
+              errors.notes ? "border-2 border-red-600" : ""
+            }`}
           />
+          {errors.notes && (
+            <p className="text-red-500 text-sm mt-1">{errors.notes}</p>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <label className="block text-gray-700 mb-2">No Of Children:</label>
@@ -357,8 +465,15 @@ const Step3 = ({ otherInfo, setOtherInfo, prevStep, handleSubmit }) => {
             name="numberOfChildren"
             value={otherInfo.numberOfChildren}
             onChange={(e) => setOtherInfo("numberOfChildren", e.target.value)}
-            className="w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white"
+            className={`w-full px-4 py-1.5 border rounded-lg focus:outline-2 transition-all duration-500 outline-gray-200 focus:outline-purple-500 bg-white ${
+              errors.numberOfChildren ? "border-2 border-red-600" : ""
+            }`}
           />
+          {errors.numberOfChildren && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.numberOfChildren}
+            </p>
+          )}
         </div>
       </div>
       <div className="flex justify-between">
