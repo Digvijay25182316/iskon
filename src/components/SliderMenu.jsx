@@ -98,7 +98,7 @@ const Slider = () => {
             </Link>
             <Link
               to={"/admin/programs"}
-              hidden={!pathname.startsWith("/admin/programs/")}
+              hidden={pathname.startsWith("/admin/courses/")}
             >
               <button
                 onClick={toggleSlider}
@@ -133,7 +133,7 @@ const Slider = () => {
             </Link>
             <Link
               to={"/admin/courses"}
-              hidden={!pathname.startsWith("/admin/courses/")}
+              hidden={pathname.startsWith("/admin/programs/")}
             >
               <button
                 onClick={toggleSlider}
